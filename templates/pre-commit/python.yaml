@@ -1,0 +1,32 @@
+# Python 栈专用 pre-commit hooks（v4.10.1 拆分）
+# 本文件是模板（模板库位置 templates/pre-commit/），使用时复制到项目根并改名：
+#   cp 开发流程规则/templates/pre-commit/python.yaml <项目根>/.pre-commit-config.python.yaml
+# 在通用 .pre-commit-config.yaml 基础上，由 Python/FastAPI 项目追加启用：
+#   pre-commit run -c .pre-commit-config.python.yaml --all-files
+# 或将本文件内容合并进项目主 .pre-commit-config.yaml。
+# alembic-check 已改为 Python 实现（原 bash -c 写法在 Windows 无 WSL 时不可运行），
+# alembic 未安装时警告放行，非迁移项目不会被阻断。
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.9
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml", "-ll"]
+        additional_dependencies: ["bandit[toml]"]
+
+  - repo: local
+    hooks:
+      - id: alembic-check
+        name: Check Alembic migrations (RULE-005)
+        entry: python hooks/scripts/alembic_check.py
+        language: system
+        pass_filenames: false
+        always_run: true

@@ -1,0 +1,16 @@
+# presets/standard.yaml - 日常开发模式（全量插件）
+# 参考 DeepSeek Harness Standard 模式：全量工具集
+name: standard
+description: 日常开发模式 — 全量插件
+version: v1.0.0
+
+plugins:
+  skills: all          # 全部 29 个技能
+  rules: all           # 全部规则
+  commands: all        # 全部命令
+  agents: all          # 全部 Agent
+
+# 默认关闭的插件（按需启用）
+disabled:
+  - web-search
+  - browser-automation

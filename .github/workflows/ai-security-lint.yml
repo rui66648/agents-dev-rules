@@ -1,0 +1,39 @@
+name: AI Security Lint
+
+on:
+  push:
+    branches: [main, master, develop, feature/**, fix/**, agent/**]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-lint:
+    name: AI 生成代码安全扫描
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 扫描硬编码密钥与高危模式
+        run: python scripts/ai_security_lint.py --output-report reports/security-lint-report.json
+
+      - name: 上传安全扫描报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-lint-report
+          path: reports/security-lint-report.json
+          retention-days: 30
+
+      - name: 安全问题阻断合并
+        if: failure()
+        run: |
+          echo "::error::安全扫描发现问题，阻断合并"
+          exit 1

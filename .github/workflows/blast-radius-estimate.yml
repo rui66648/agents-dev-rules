@@ -1,0 +1,62 @@
+name: Blast Radius Estimation
+
+on:
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  estimate-blast-radius:
+    name: 影响面估算
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 估算变更影响面
+        run: |
+          python scripts/estimate_change.py \
+            "${{ github.event.pull_request.base.sha || '' }}" \
+            "${{ github.event.pull_request.head.sha || '' }}" \
+            || echo "::notice::影响面估算不可用（可能缺少 base/head SHA），跳过"
+
+      - name: 上传影响面报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blast-radius-report
+          path: docs/blast-radius-report.json
+          retention-days: 30
+
+      - name: 大改动打标
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('docs/blast-radius-report.json')) return;
+            const report = JSON.parse(fs.readFileSync('docs/blast-radius-report.json', 'utf8'));
+            if (report.classification === 'large' || report.classification === 'medium') {
+              const labels = (await github.rest.issues.listLabelsOnIssue({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })).data.map(l => l.name);
+              if (!labels.includes('Large-Change')) {
+                await github.rest.issues.addLabels({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: ['Large-Change']
+                });
+              }
+            }

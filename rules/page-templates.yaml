@@ -1,0 +1,332 @@
+---
+name: page-templates
+version: v1.0.0
+type: spec
+updated: 2026-08-27
+description: 页面类型 → 组件组合模板映射（AI 装配手册，RULE-034/035/036 强制引用）
+---
+
+# 页面类型模板（Page Templates）
+
+> **用途**：让 AI 在窄目录里挑零件，而非从零组合。
+> **强制引用**：RULE-034（生成前必须匹配模板）、RULE-035（组件选择前必须查 manifest.json）、RULE-036（生成后过校验）。
+> **校验脚本**：`hooks/scripts/component-validator.py --validate-template`
+
+---
+
+## 通用结构（所有页面必须包含）
+
+```yaml
+page_base:
+  required:
+    - component: PageWrapper
+      description: 页面根容器（统一 padding + max-width + 响应式断点）
+    - component: ErrorBoundary
+      description: 错误边界（阻断崩溃扩散）
+  optional:
+    - component: Breadcrumb
+      description: 面包屑导航（多层级页面必需）
+    - component: PageHeader
+      description: 页面标题栏（标题 + 副标题 + 操作按钮区）
+```
+
+---
+
+## 页面类型定义
+
+### 1. 列表页（list_page）
+
+> **典型场景**：后台管理列表、数据看板、订单列表、用户管理
+
+```yaml
+page_type: list_page
+aliases: [data-list, admin-list, table-page]
+required:
+  - component: PageHeader
+    layout: horizontal
+    buttons:
+      - variant: primary
+        max_per_screen: 1
+        forbidden_actions: [destroy, delete_all]
+  - component: FilterBar
+    layout: horizontal | vertical
+    behavior: sticky_top
+    note: "筛选区是否常驻由业务决策，AI 不得默认"
+  - component: DataTable
+    features: [pagination, sorting, filtering, selection]
+    empty_state: EmptyState
+    loading_state: LoadingSkeleton
+    error_state: RetryButton
+optional:
+  - component: BatchActions
+    condition: DataTable.selection_enabled == true
+  - component: ColumnSettings
+    note: "仅当列数 > 6 时建议启用"
+  - component: ExportButton
+    variant: secondary
+forbidden:
+  - component: Modal
+    reason: "列表页不应内嵌 Modal，操作应走抽屉或跳转详情页"
+  - component: Drawer
+    reason: "列表页主区域不应套 Drawer"
+  - component: Tabs
+    reason: "过滤条件复杂时用 FilterBar，而非 Tabs 分 tab"
+constraints:
+  max_nested_depth: 3
+  max_primary_buttons: 1
+  required_states: [empty, loading, error, data]
+```
+
+### 2. 详情页（detail_page）
+
+> **典型场景**：用户详情、订单详情、资源预览
+
+```yaml
+page_type: detail_page
+aliases: [view-page, resource-detail]
+required:
+  - component: PageHeader
+    layout: horizontal
+    buttons:
+      - variant: secondary
+        actions: [edit, back]
+  - component: DetailCard
+    structure: [info-section, action-section]
+optional:
+  - component: Tabs
+    condition: "信息模块 ≥ 3 且互斥"
+  - component: Timeline
+    condition: "需要展示状态变更历史"
+  - component: RelatedResources
+    layout: grid-2 | grid-3
+forbidden:
+  - component: FilterBar
+    reason: "详情页不需要筛选，改用 Tabs 组织信息"
+  - component: DataTable
+    reason: "单条数据用 DetailCard，不用表格"
+constraints:
+  max_nested_depth: 2
+  max_primary_buttons: 1
+  required_states: [loading, error, data]
+```
+
+### 3. 表单页（form_page）
+
+> **典型场景**：新增/编辑资源、配置表单、审批流程
+
+```yaml
+page_type: form_page
+aliases: [create-page, edit-page, config-form]
+required:
+  - component: PageHeader
+    layout: horizontal
+    buttons:
+      - variant: primary
+        action: submit
+        max_per_screen: 1
+        forbidden_actions: [destroy]
+      - variant: secondary
+        action: cancel
+  - component: Form
+    schema_source: "Zod schema（与后端 Pydantic 同源）"
+    layout: vertical | horizontal | inline
+    submit_behavior: disable_on_submit
+optional:
+  - component: FormStepIndicator
+    condition: "表单步骤 ≥ 3"
+  - component: FieldHelp
+    target: "复杂字段或业务字段"
+  - component: PreviewPanel
+    condition: "表单有关联预览需求"
+forbidden:
+  - component: FilterBar
+    reason: "表单页不需要筛选"
+  - component: DataTable
+    reason: "表单页不使用表格展示"
+  - component: Modal
+    reason: "表单应在页面层，不在 Modal 内（除非是快速录入）"
+constraints:
+  max_nested_depth: 2
+  max_primary_buttons: 1
+  required_states: [draft, submitting, success, error]
+  validation: "前端 Zod + 后端 Pydantic 双重校验"
+```
+
+### 4. 配置/设置页（settings_page）
+
+> **典型场景**：系统设置、用户偏好、权限配置
+
+```yaml
+page_type: settings_page
+aliases: [config-page, preference-page]
+required:
+  - component: PageHeader
+    layout: horizontal
+    title: "设置"
+  - component: SettingsLayout
+    structure: [sidebar-nav, content-area]
+optional:
+  - component: SettingsSection
+    repeatable: true
+  - component: ToggleGroup
+    condition: "多选项互斥设置"
+  - component: ConfirmationDialog
+    condition: "涉及破坏性操作"
+forbidden:
+  - component: DataTable
+    reason: "设置页不以表格为主展示"
+  - component: FilterBar
+    reason: "设置页不需要筛选"
+constraints:
+  max_nested_depth: 2
+  max_primary_buttons: 1
+  required_states: [data, error]
+```
+
+### 5. 仪表板/看板页（dashboard_page）
+
+> **典型场景**：数据看板、监控大屏、统计分析
+
+```yaml
+page_type: dashboard_page
+aliases: [board-page, analytics-page, kanban]
+required:
+  - component: PageHeader
+    layout: horizontal
+    buttons:
+      - variant: secondary
+        action: refresh
+  - component: DashboardGrid
+    layout: responsive-grid
+    min_card_width: 280px
+optional:
+  - component: StatCard
+    repeatable: true
+  - component: ChartWidget
+    library: Recharts | ECharts（项目级限制）
+  - component: TableWidget
+    condition: "需要展示明细数据"
+  - component: TimeRangePicker
+    behavior: page-wide-filter
+  - component: RefreshButton
+    variant: secondary
+    note: "自动刷新间隔由业务决定"
+forbidden:
+  - component: FilterBar
+    reason: "看板用 TimeRangePicker + 全局筛选，不用独立 FilterBar"
+constraints:
+  max_nested_depth: 2
+  chart_library_singleton: true  # 同一页面只用一个图表库
+  required_states: [loading, error, data]
+```
+
+### 6. 空态/异常态页面（error_page）
+
+> **典型场景**：404、500、网络错误、无权限
+
+```yaml
+page_type: error_page
+aliases: [not-found, permission-denied, maintenance]
+required:
+  - component: ErrorState
+    structure: [icon, title, message, action]
+    actions:
+      - variant: primary
+        label: "返回首页"
+        action: navigate_home
+      - variant: secondary
+        label: "重试"
+        action: retry
+optional: []
+forbidden: []
+constraints:
+  max_nested_depth: 1
+  primary_buttons: 1
+  required_states: [static]
+```
+
+---
+
+## 组件组合规则（跨页面通用）
+
+### 嵌套深度规则
+
+```yaml
+nesting_rules:
+  max_depth: 3
+  depth_by_component:
+    Card: 1
+    Modal: 2          # Modal 内最多再套 1 层
+    Drawer: 2         # Drawer 内最多再套 1 层
+    Tabs: 1           # TabPanel 视为 Card
+    Grid: 0           # 容器不计深度
+  enforcement: "component-validator.py 递归检查 JSX 树深度"
+```
+
+### Primary 按钮数量规则
+
+```yaml
+primary_button_rules:
+  max_per_screen: 1
+  exceptions:
+    - scenario: "确认弹窗内的操作按钮"
+      max: 2
+      note: "Confirm/Cancel 各一"
+    - scenario: "分页器内的跳转按钮"
+      max: null
+      note: "PageJump 不计入 primary"
+  enforcement: "component-validator.py 统计每页面 primary variant 数量"
+```
+
+### 图标库单例规则
+
+```yaml
+icon_library_rules:
+  max_per_project: 1
+  allowed: [Lucide, Tabler, Phosphor, Hugeicons]
+  enforcement: "component-validator.py 扫描 import 语句"
+```
+
+### 图表库单例规则
+
+```yaml
+chart_library_rules:
+  max_per_page: 1
+  allowed: [Recharts, ECharts, AntV-G2, AntV-G6, DataV-React]
+  enforcement: "component-validator.py 扫描 import 语句"
+```
+
+---
+
+## 使用方式
+
+### AI 生成前端页面时的流程
+
+```
+1. 用户描述页面意图
+   ↓
+2. AI 识别页面类型 → 匹配 page-templates.yaml
+   ↓
+3. AI 输出候选组件组合（带置信度）
+   ↓
+4. 人工确认 OR schema 校验（component-validator.py）
+   ↓
+5. 进入代码生成
+   ↓
+6. 生成后再次过 component-validator.py 校验
+   ↓
+7. 输出最终 JSX + 校验报告
+```
+
+### 校验命令
+
+```bash
+# 校验页面模板匹配
+python hooks/scripts/component-validator.py --validate-template --page-type list_page
+
+# 校验生成代码中的组件组合
+python hooks/scripts/component-validator.py --check-components src/frontend/pages/OrderList.tsx
+
+# 全量校验
+python hooks/scripts/component-validator.py --full-check
+```

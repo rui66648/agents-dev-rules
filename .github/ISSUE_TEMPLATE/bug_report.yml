@@ -1,0 +1,58 @@
+name: Bug 报告
+description: 报告规则/门禁/脚本中的缺陷
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。本仓库是规则体系，**规则本身的错误比代码 bug 影响更大**——
+        一条失效规则会让所有使用方静默走错流程。请尽量给出可复现的触发条件。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题现象
+      description: 实际发生了什么？期望什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 触发该问题的最小步骤（命令、输入、场景）
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: 影响范围
+      description: 影响哪些规则编号 / 技能 / 门禁？是否会导致流程走偏？
+    validations:
+      required: true
+
+  - type: input
+    id: rule-id
+    attributes:
+      label: 关联规则编号
+      description: 若能定位到具体规则，请填写编号（如 RULE-055）
+      placeholder: RULE-0xx
+
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境信息
+      description: OS、Python/Node 版本、是否使用 Claude Code / Cursor / 其他代理
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 补充确认
+      options:
+        - label: 我已确认这不是我自己项目的配置问题（而非本仓库规则问题）
+          required: false
+        - label: 我已搜索过现有 issue，无重复
+          required: false

@@ -1,0 +1,78 @@
+name: Branch Protection & PR Labels
+
+on:
+  push:
+    branches: [main, master, develop, feature/**, fix/**, agent/**]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check-branch:
+    name: 分支命名校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 校验分支命名规范
+        if: github.event_name == 'push'
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          if [[ "$BRANCH_NAME" =~ ^agent/feature/ ]]; then
+            echo "::notice::Agent 分支命名合规: $BRANCH_NAME"
+          elif [[ "$BRANCH_NAME" =~ ^(feature|fix)/ ]]; then
+            echo "::notice::功能分支命名合规: $BRANCH_NAME"
+          elif [[ "$BRANCH_NAME" =~ ^(main|master|develop)$ ]]; then
+            echo "::notice::主干分支: $BRANCH_NAME"
+          else
+            echo "::error::分支命名不合规，请使用 feature/xxx、fix/xxx 或 agent/feature/<agent-id>"
+            exit 1
+          fi
+
+  label-agent-pr:
+    name: 标记 AI-Agent PR
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const headRef = context.payload.pull_request?.head?.ref || '';
+            if (!headRef.startsWith('agent/')) return;
+
+            // 标签不存在时先创建（addLabels 对不存在的标签会 422）
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'AI-Agent'
+              });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'AI-Agent',
+                color: '0e8a16',
+                description: '由 AI 编码代理提交的 PR'
+              });
+            }
+
+            const labels = (await github.rest.issues.listLabelsOnIssue({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            })).data.map(l => l.name);
+
+            if (!labels.includes('AI-Agent')) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['AI-Agent']
+              });
+              core.info('已添加 AI-Agent 标签');
+            }

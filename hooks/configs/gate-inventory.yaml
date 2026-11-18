@@ -1,0 +1,174 @@
+# 门禁清单（gate-runs 的 --unverified 基线）
+#
+# 为什么需要这份清单：只扫描历史记录的话，「从未执行过」的门禁永远是空白，
+# 无法被发现。--unverified 以本清单为准逐项对账，缺记录/无 PASS 一律列出。
+#
+# integration:
+#   integrated     —— 已在脚本内写入 logs/gate-runs/<YYYYMM>.jsonl
+#   not-integrated —— 不写记录；reason 必须写清为什么接不进（会在 --unverified 中显式标注）
+#
+# 观察期毕业规则（2026-11-14，v4.20.0）：所有 not-integrated 条目默认 **30 天评审期**（自登记日起）；
+# 到期未升级 integrated/enforce、也未在门禁体检中显式续期的，下一批体检必须标记「升级」或「退役」，
+# 禁止无限观察（起因：eval-gate FAIL 31.82% 后 observe-only 照常部署、次日即退役——红门禁没有
+# 生命周期就永远是纸老虎）。
+# 豁免计量：--no-verify / commit-tree 类豁免「同日同因 ≥3 次」即视为门禁或流程缺陷信号，
+# 当日修复根因或在交付说明登记整改项（计量见 branch-hygiene-check.mjs C2）。
+
+gates:
+  - gate_id: root-cleanliness
+    integration: integrated
+    rule_ids: [RULE-052, RULE-053]
+    command: node hooks/scripts/root-cleanliness-check.mjs --root <repo>
+
+  - gate_id: ws-gate
+    integration: integrated
+    rule_ids: [RULE-052, RULE-053]
+    command: powershell -File <staging-workspace>/tools/ws-gate.ps1 [-Json] [-Apply]
+
+  - gate_id: rules-consistency
+    integration: integrated
+    rule_ids: [RULE-017, RULE-019]
+    command: python scripts/rules-consistency-check.py
+    note: >-
+      跨规则审计 7 项：速查表位置存在 / RULE 编号不重复 / rules 与 applies_to 索引双向对齐 /
+      registry↔frontmatter↔applies_to 版本三方一致 / 悬空路径引用（两级豁免见脚本 docstring）/
+      License 黑名单交叉一致 / 选型 ADR 存在性（v4.16.1 新增：推荐具名外部工具且无 ADR 标注即 FAIL，
+      判据刻意收窄以避免公文式 ADR）。不绑定单一 RULE 编号，故 rule_ids 列已覆盖的两条。
+
+  - gate_id: spec-clarity-gate
+    integration: integrated
+    rule_ids: [RULE-055, RULE-056]
+    command: node hooks/scripts/spec-clarity-gate.mjs --root <repo>
+    note: 判澄清清零 / 结构完整 / 体量 ≤200 行 / spec_version 不落后 commit / FR 被 tasks 覆盖；
+          无 docs/tasks/**/spec.md 时只 WARN（L0/L1 正常态），不制造假红
+
+  - gate_id: dashboard-check
+    integration: not-integrated
+    rule_ids: [RULE-054]
+    command: node tools/dashboard-check.mjs
+    reason: 实现分散在各仓 tools/ 下，逐一改造四个仓超出本批范围；本库只保留 canonical 实现
+
+  - gate_id: pre-commit
+    integration: not-integrated
+    rule_ids: [RULE-007, RULE-008]
+    command: python -m pre_commit run --all-files
+    reason: 外部工具自行派发钩子，无稳定的「全部钩子结束后」回调；只能另写包装脚本，未纳入本批
+
+  - gate_id: agent-linter
+    integration: not-integrated
+    rule_ids: [RULE-028]
+    command: python hooks/scripts/agent_linter_checker.py --ci --project-root <repo>
+    reason: >-
+      脚本自身未调用 gate_runs/recordGateRun 落记录（与 gate-sh 同因：聚合结果语义缺一个
+      进程出口），因此 --unverified 永远显示"从未成功运行"。已在 rule_ids/RULE-028 侧保留
+      条目以说明存在性与口径；待给脚本补一次 recordGateRun 写入后再改 integrated。
+      注意：不写记录的 `--unverified` 报红是**事实**而非假红。
+    note: >-
+      RULE-028（项目已配置的 Linter）。剪枝遍历（os.walk 原地剪枝 + 路径 ≥259 跳过，
+      v4.16.1）修复 cordis 循环 node_modules 触发的 WinError 1921——此前本规则根下必 FAIL。
+      工具缺失（ruff/mypy/bandit 未安装）默认放行，但输出会单列 [NOT-VERIFIED] 段区分
+      "未发现问题"与"已验证通过"；加 --strict-missing-tools 可让缺失影响退出码（exit 2）。
+      python 三工具已改走 build_command，修复 Windows 上装了工具仍被误判缺失的问题。
+
+  - gate_id: ai-security-lint
+    integration: not-integrated
+    rule_ids: [RULE-008, RULE-016]
+    command: python scripts/ai_security_lint.py --path . --ci
+    reason: 四仓均标注「未启用」（存量违规未清零），接入记录也只会长期是 FAIL
+
+  - gate_id: component-validator
+    integration: not-integrated
+    rule_ids: [RULE-034, RULE-035, RULE-036]
+    command: python hooks/scripts/component-validator.py --full-check --src-dir <dir>
+    reason: 四仓均标注「未启用」（manifest 与 AntD 栈不符），接入记录也只会长期是 FAIL
+
+  - gate_id: gate-sh
+    integration: not-integrated
+    rule_ids: [RULE-007]
+    command: bash rules/gate.sh
+    reason: 聚合脚本本身不记录；其调用的子检查器各自落记录，聚合层无独立结果语义
+
+  - gate_id: agent-hooks
+    integration: not-integrated
+    rule_ids: [RULE-008, RULE-030, RULE-031]
+    command: hooks/hooks.json（secret-scan / schema-gate / plugin-gate）
+    reason: 由 Agent 工具事件触发（PreToolUse），没有可插入的进程出口；需改钩子框架才能记录
+
+  - gate_id: tech-stack-structure
+    integration: not-integrated
+    rule_ids: [RULE-053]
+    command: node tools/gen-tech-stack.mjs --check
+    reason: >-
+      共享实现 hooks/scripts/gen-tech-stack.mjs（零依赖 ESM，自带 --selftest 正负自证）：
+      由各仓 tools/root-structure.json（机器清单，门禁判据）派生各仓 tech-stack.md §3 结构树
+      区块（人读索引），--check 检区块与清单漂移。**各仓以薄启动器调用**（沿用
+      root-cleanliness-check.mjs 的「共享实现 + 各仓启动器」范式，不留第二份实现），
+      <repo-a>、<repo-b>、规则库自身均已接入。本条登记为 not-integrated 的原因：
+      共享实现与各仓启动器**不写 gate-runs 记录**（与 root-cleanliness 的记录机制不同），
+      故无法纳入 --unverified 基线；接入记录需另加 recordGateRun 调用。
+
+  - gate_id: learning-loop
+    integration: not-integrated
+    rule_ids: [RULE-057]
+    command: node hooks/scripts/learning-loop-check.mjs --root <repo> --check
+    reason: >-
+      观察期（2026-11-10）：只读扫描 docs/learning/，只输出 WARN 清单、退出码恒 0，未挂
+      rules/gate.sh 硬拦截、不写 gate-runs 记录。判据刻意收窄为「笔记存在性 + 段齐全率」
+      （学习目标 / 四个反问 / 半页七项；笔记自称含排错时要求五件事六项齐全）——理解质量
+      无法门禁化，脚本只能说「没写」不能说「没学会」，当质量判据用即为自造假绿。
+      转正需先满足：四仓各有真实笔记样本、误报清零、--selftest 正负双向自证、人工复核留痕。
+
+  - gate_id: duplicate-artifact-check
+    integration: not-integrated
+    rule_ids: [RULE-053]
+    command: node hooks/scripts/duplicate-artifact-check.mjs --root <repo> --check
+    reason: >-
+      观察期（v4.17.0）：只读扫描、只输出 WARN 清单、退出码恒 0，未挂 rules/gate.sh 硬拦截，
+      也没有「写入前」这一稳定进程出口可落 gate-runs 记录。判据刻意收窄为「精确 SHA256 重复 +
+      归一化主题键 + 同目录同体裁聚类」，冻结仓 / archive / _worktrees / 脚本派生片段按
+      RULE-053 §3.5 合法例外排除；包级结构性入口（README/CHANGELOG/index/AGENTS）误报已按
+      §3.5 清零（脚本只跳 TOPIC、保留 EXACT）。观察期不结束：退出需满足 §3.5 四条判据，
+      未满足前保持 not-integrated、不挂硬拦截、不写记录。
+
+  - gate_id: branch-hygiene
+    integration: not-integrated
+    rule_ids: [RULE-012]
+    command: node hooks/scripts/branch-hygiene-check.mjs --root <repo>
+    reason: >-
+      观察期（v4.20.0）：只读收集 4 个结构信号（主检出占用 / 近 7 天 --no-verify 豁免计数 /
+      HEAD 缺 Agent trailer / 并发工作面数），全部 WARN、退出码恒 0，不写 gate-runs 记录。
+      诚实边界：判信号不判行为质量——主检出归还与否最终靠收工节拍自律，本门禁只让信号可见。
+      转正需先满足：两仓 AGENTS.md 收工节拍引用接线、阈值经实测分布标定、--selftest 保持正负自证。
+
+  - gate_id: daily-gate-readings
+    integration: not-integrated
+    rule_ids: [RULE-052, RULE-053]
+    command: node hooks/scripts/gen-project-dashboards.mjs --root <repo>（每日排程，读数落各仓 docs/dashboards/）
+    reason: >-
+      观察期（v4.20.0）：thresholds.md 三指标（并发工作面数/在途文件数/列内停留天数）此前
+      「有定义无取数」（gen-project-dashboards 零运行痕迹），本次以每日排程（DSH schedule）
+      接入 ai/qms 两仓，读数追加 <staging-workspace>\reports\daily-gate-readings.md。未写
+      gate-runs 记录故 not-integrated；排程中断即取数断链，靠 --unverified 对账显性化。
+
+  - gate_id: managed-root-cleanliness
+    integration: not-integrated
+    rule_ids: [RULE-052, RULE-053]
+    command: node hooks/scripts/root-cleanliness-check.mjs --mrs hooks/configs/managed-root-set.json --json
+    reason: >-
+      观察期（2026-11-17）：把洁净门禁从单仓根扩展到 managed-root-set.json 枚举的全部受管根
+      （workspace-root / repo / scratch）。修复「门禁只管单仓根，工作区根与仓外临时区照不到」的
+      边界缺陷——三级实测显示仓内全 PASS，泄漏集中在工作区根（无 git 无 hook）与仓外。os-scratch
+      类 scan:false 只登记不深扫。--mrs 已在 root-cleanliness-check.mjs 落地并写 gate-runs 记录
+      （gateId: managed-root-cleanliness），但判据尚未挂 rules/gate.sh 硬拦截，保持 not-integrated
+      至观察期结束。
+
+  - gate_id: creation-gate
+    integration: not-integrated
+    rule_ids: [RULE-052, RULE-053]
+    command: node hooks/scripts/creation-gate.mjs --target <path> --mrs hooks/configs/managed-root-set.json
+    reason: >-
+      观察期（2026-11-17）：在文件/目录创建点前置判定「目标是否位于受管根的合法落点」，把约束从
+      pre-commit（太晚且工作区根无 git 挂不上）前移到创建动作发生时。三步判定：①是否在受管根内
+      ②os-scratch bypass ③一级目录 allowlist 登记 + L1 命名红线。当前形态为独立 CLI，尚未接入
+      agent 工具层（write_file/mkdir 前置），接入后先 log-only 不阻断，满足设计稿阶段 3 四条退出
+      判据（误报清零 / --selftest 正负双向 / 命中后确实归位的实证 / TTL 治理闭环）后才升硬拦截。

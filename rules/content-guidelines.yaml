@@ -1,0 +1,106 @@
+# Content Guidelines - AI 生成内容指南
+# 版本: v1.0.0 | 更新: 2026-08-27
+# 规范: AI 在 UI 中生成的所有文本/数字/状态内容必须遵循本指南。
+#       配合 RULE-034~036 组件组合校验，减少"内容噪音"。
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+name: "content-guidelines"
+version: "1.0.0"
+
+# ===== 文案长度规范 =====
+# 每个 UI 位置有明确的字符数上限，防止 AI 生成冗长文本撑爆布局
+copy_length:
+  button:
+    max_chars: 12
+    note: "按钮文本 ≤6 个汉字或 ≤12 字符，必须动词开头：提交/删除/保存/新建"
+    forbidden: ["连续多个动词", "省略号…（需改为加载态）+ 冗长描述性文案"]
+  page_title:
+    max_chars: 24
+    note: "页面标题 ≤12 个汉字，明确业务语义，禁止『管理』『系统』等空泛词"
+  section_title:
+    max_chars: 20
+  field_label:
+    max_chars: 10
+    note: "表单字段标签必须简短精确，禁止模棱两可的描述性长句"
+  empty_state_title:
+    max_chars: 14
+  empty_state_description:
+    max_chars: 40
+    note: "空状态说明 ≤20 汉字，给出可操作的下一步，禁止纯安慰性文案"
+  tooltip:
+    max_chars: 30
+  toast:
+    max_chars: 60
+    note: "Toast 必须包含结果 + 可选操作，禁止『操作成功』这类无信息量的空话"
+  confirmation_modal:
+    max_chars: 60
+    note: "确认弹窗必须说明『即将发生什么』，配合破坏性按钮，禁止仅写『确认删除吗』"
+
+# ===== 按钮文案动词规范 =====
+button_verbs:
+  primary: ["提交", "保存", "新建", "继续", "确认"]
+  destructive: ["删除", "注销", "清除", "重置", "终止"]
+  secondary: ["取消", "返回", "了解更多"]
+  forbidden_patterns:
+    - "确认+x（如『确认删除』应直接写『删除』）"
+    - "通用文案（如『确定』『好的』『OK』）作为主操作"
+    - "无主语动作（如『请确认信息录入无误后点击』）"
+  placeholder:
+    max_chars: 20
+    note: "Placeholder 必须体现输入格式或示例，禁止『请输入内容』『请输入信息』这类无指导性文案"
+
+# ===== 状态文案规范 =====
+state_copy:
+  loading:
+    copy: "使用动作描述而非状态描述，如『正在提交...』优于『加载中...』"
+    duration_rule: "超过 3s 必须显示进度或 Skeleton，禁止无限 spinner"
+    forbidden: ["纯『加载中...』", "闪烁动画配合闪烁文案"]
+  empty:
+    required_fields: [title, description, action]
+    description_rule: "必须包含『如何解决 + 可操作下一步』，禁止『暂无数据』单行敷衍"
+  error:
+    messages: "必须说明『发生了什么 + 用户可做什么』，禁止『出错了』『请求失败』这类无引导文案"
+    technical_detail: "技术细节（状态码/堆栈）默认折叠，只对开发者可见"
+  confirm:
+    required_fields: [warning_impact, destructive_action, cancel_action]
+    copy_rule: "破坏性操作的确认文案必须描述后果，如『删除后无法恢复』"
+
+# ===== 操作结果反馈规范 =====
+feedback:
+  success_toast:
+    required: true
+    copy: "结果描述 + 可选撤销操作，如『已保存』『已删除（可撤销）』"
+  error_toast:
+    required: true
+    copy: "错误概要 + 重试/联系入口，禁止『系统错误』"
+  progress:
+    required_fields: [current, total, label]
+    note: "长任务必须显示进度百分比或步骤，禁止纯 spinner"
+
+# ===== 数字与格式化规范 =====
+number_format:
+  large_numbers: ">10^4 必须千分位或缩写（如 12,345 或 1.2万）"
+  percentages: "显示一位小数，如 87.3%"
+  currency: "统一货币符号与精度（如 ¥12,345.00）"
+  dates: "统一相对/绝对时间格式，列表优先相对时间，详情优先绝对时间"
+  precision: "禁止浮点误差显示（浮点结果必须 round 后再渲染）"
+
+# ===== 可访问性文案 =====
+accessibility_copy:
+  aria_labels:
+    required: "所有纯图标按钮必须 aria-label"
+    icon_button_rule: "必须描述动作而非图标的形状描述，如『删除此项』优于『垃圾桶图标』"
+  alt_text:
+    required: "所有有信息量的图片必须 alt，装饰性图片 alt=''"
+  focus_indicator:
+    required: "键盘焦点必须可见"
+  color_dependency:
+    rule: "禁止仅用颜色区分状态，必须配合图标或文本"
+
+# ===== 消极约束（禁止模式） =====
+forbidden_outright:
+  - "模板化填充文案（如『此处填写您的 XX』）"
+  - "无信息量的系统状态词（如『操作成功』『处理中』）"
+  - "命令式冗余词（如『请点击确认』重复『点击』）"
+  - "中英混排不一致（按钮中文则全中文，英文则全英文）"
+  - "禁在按钮上写『...」或『…』表示进行中（应切换为加载态）"

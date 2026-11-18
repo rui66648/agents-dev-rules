@@ -1,0 +1,20 @@
+# Schema-As-Code Stylelint 配置
+# 集成设计令牌语义校验规则
+
+plugins:
+  - stylelint-design-tokens
+
+rules:
+  # 设计令牌语义校验
+  design-tokens/color-semantic-domain:
+    - true
+    - schemaPath: ./schemas/design-tokens.yaml
+      severity: error
+  
+  # 禁止硬编码颜色值
+  color-no-hex: null  # 允许十六进制颜色，但需通过令牌引用
+  
+  # 强制使用设计令牌
+  declaration-property-value-disallowed-list:
+    color:
+      - /^#[0-9A-Fa-f]{6}$/  # 禁止直接硬编码颜色值

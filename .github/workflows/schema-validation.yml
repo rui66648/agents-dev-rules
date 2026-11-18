@@ -1,0 +1,70 @@
+name: Schema-As-Code Validation
+
+on:
+  pull_request:
+    branches: [main, master, develop]
+  push:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema-validation:
+    name: Schema 契约校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: pip install pyyaml jsonschema
+
+      - name: 运行 Schema 校验器
+        run: python hooks/schema-validator.py --all --fail-on-violation --verbose
+
+  token-lint:
+    name: Token 语义校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装依赖
+        run: npm install --no-audit --no-fund
+
+      - name: 校验设计 Token 语义
+        run: node hooks/design-token-linter.js configs/ --fail-on-violation
+
+      - name: 校验 Schema-As-Code ESLint 规则语法
+        run: node --check .eslintrc.schema-as-code.js
+
+  contract-diff:
+    name: 契约差异检测
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: pip install pyyaml
+
+      - name: 检测契约变更
+        run: |
+          python hooks/contract-diff.py \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}" \
+            --output impact-report.md

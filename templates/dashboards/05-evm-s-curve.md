@@ -1,0 +1,32 @@
+---
+slot: 05
+slug: evm-s-curve
+title: 挣值曲线 EVM / S 曲线
+decision: 追加预算还是降档交付（拍板人：项目负责人 + 出资方）
+cadence: monthly
+owner: 待指派
+status: deferred
+reason: 骨架由 RULE-054 建立，尚未取数；占住槽位，防止日后另起一张重复图
+revisit: 2026-11-30
+---
+# 05 挣值曲线 EVM / S 曲线
+
+## 决策
+追加预算还是降档交付（拍板人：项目负责人 + 出资方）
+
+## 读数
+（deferred：未取数。转 active 前先在 thresholds.md 补齐本图指标口径与数据源，再逐条填表；口径变更要在「变化」段留 delta。）
+
+| 周 | PV | EV | AC | SPI | CPI | 灯 |
+|---|---|---|---|---|---|---|
+
+## 图
+本图唯一的渲染位（mermaid / ASCII / 同名 `<id>-<slug>.render.html`）。一份槽位只留一张，禁止另存带日期或 v2 的副本 —— 历史交给 git。
+
+## 变化
+- 2026-11-01 建立骨架（deferred，无读数）
+
+## 取数
+- 数据源：无财务系统时按人日折算并在取数段声明折算口径（不许默认成现金）。
+- 负责人：待指派
+- last_updated: 未更新

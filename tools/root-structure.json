@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "generator": "人工登记；一级目录与磁盘真实列举一一对应，无磁盘不存在的条目",
+  "note": "class ∈ engineering（长期维护的源码/规则/工具）/ artifact（一次或多次产出的成品，可归档）/ data（运行态或素材数据）/ external（独立子仓或外部项目）。已由 .gitignore 忽略的目录仍然登记，便于清单与磁盘对照；新增或删除一级目录时同批更新本文件。",
+  "dirs": {
+    ".github": { "class": "engineering", "reason": "GitHub Actions workflows、PR/Issue 模板" },
+    "agents": { "class": "engineering", "reason": "子代理定义（角色与职责）" },
+    "commands": { "class": "engineering", "reason": "斜杠命令定义" },
+    "components": { "class": "engineering", "reason": "可复用组件定义（与 component-validator 配套）" },
+    "configs": { "class": "engineering", "reason": "规则库配置（工具链与门禁参数）" },
+    "docs": { "class": "engineering", "reason": "文档区：指南与参考（guides/、reference/）" },
+    "hooks": { "class": "engineering", "reason": "钩子与门禁脚本（canonical 实现 root-cleanliness-check.mjs 等）" },
+    "logs": { "class": "data", "reason": "运行日志（已被 .gitignore 忽略）" },
+    "plugins": { "class": "engineering", "reason": "插件清单真源（registry.yaml，plugin-validator --check-registry 校验）" },
+    "presets": { "class": "engineering", "reason": "预设组合（按项目类型/技术栈的规则预设）" },
+    "reports": { "class": "artifact", "reason": "门禁与审计报告产出" },
+    "rules": { "class": "engineering", "reason": "规则真源（*rules.md + applies_to.md 索引）" },
+    "schemas": { "class": "engineering", "reason": "结构定义：JSON Schema 契约 + design-tokens.yaml 令牌语义" },
+    "scripts": { "class": "engineering", "reason": "校验与生成脚本（rules-consistency-check.py、ai_security_lint.py 等）" },
+    "skills": { "class": "engineering", "reason": "技能定义（SKILL.md 与配套资源）" },
+    "templates": { "class": "engineering", "reason": "项目模板（AGENTS.md / tech-stack.md 等骨架）" },
+    "tests": { "class": "engineering", "reason": "规则库自身测试（校验脚本的回归用例）" },
+    "tools": { "class": "engineering", "reason": "长期工具与台账：本文件（root-structure.json）即在此" }
+  }
+}

@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-muted: var(--text-muted);
+  --color-muted-foreground: var(--text-dim);
+  --color-popover: var(--bg-elevated);
+  --color-card: var(--bg-elevated);
+  --color-border: var(--border);
+  --color-input: var(--bg-4);
+  --color-ring: var(--accent);
+  --color-primary: var(--brand);
+  --color-primary-foreground: black;
+  --color-secondary: var(--bg-3);
+  --color-secondary-foreground: var(--text);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent);
+  --color-destructive: var(--error);
+  --color-destructive-foreground: white;
+  --color-success: var(--success);
+  --color-success-foreground: white;
+  --color-warning: var(--warning);
+  --color-warning-foreground: black;
+  --color-info: var(--info);
+  --color-hover: var(--hover);
+  --color-active: var(--accent-bg);
+  --color-focus-ring: var(--accent);
+  --color-input-focus: var(--accent-border);
+  --radius-sm: var(--radius);
+  --radius-md: calc(var(--radius) + 2px);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius-xl);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}

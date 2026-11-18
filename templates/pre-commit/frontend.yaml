@@ -1,0 +1,14 @@
+# 前端 TS 栈专用 pre-commit hooks（v4.10.1 拆分）
+# 本文件是模板（模板库位置 templates/pre-commit/），使用时复制到项目根并改名：
+#   cp 开发流程规则/templates/pre-commit/frontend.yaml <项目根>/.pre-commit-config.frontend.yaml
+# 在通用 .pre-commit-config.yaml 基础上，由 React/Next.js 项目追加启用：
+#   pre-commit run -c .pre-commit-config.frontend.yaml --all-files
+# eslint 不再硬编码 src/frontend/src/ 路径（原写法在非 TS 项目中必然报错阻断），
+# pre-commit 只对变更的 TS/TSX 文件执行，未匹配时自动跳过。
+
+repos:
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.56.0
+    hooks:
+      - id: eslint
+        args: [--fix]

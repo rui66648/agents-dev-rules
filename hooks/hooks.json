@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/hooks.json",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|execute_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node hooks/scripts/pre-commit-secret-scan.js",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "(Write|Edit|MultiEdit)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/scripts/schema-gate.py",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "python hooks/scripts/plugin-gate.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|execute_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node hooks/scripts/post-test.js",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

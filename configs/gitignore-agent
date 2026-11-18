@@ -1,0 +1,17 @@
+# Agent 执行目录配置
+
+## 忽略规则
+
+### Agent 上下文缓存
+agent-context/
+
+### 执行快照
+execution-snapshots/
+
+### 审计日志
+audit-logs/
+
+### 临时文件
+*.tmp
+*.temp
+*.cache

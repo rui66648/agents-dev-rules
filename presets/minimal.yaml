@@ -1,0 +1,30 @@
+# presets/minimal.yaml - 快速模式（仅核心插件）
+# 参考 DeepSeek Harness Minimal 模式：仅核心工具集，用于快速任务/基准测试
+name: minimal
+description: 快速模式 — 仅核心开发闭环插件
+version: v1.0.0
+
+plugins:
+  skills:
+    - brainstorming
+    - system-design
+    - writing-plans
+    - executing-plans
+    - test-driven-development
+    - verification
+  rules:
+    - security-rules
+    - testing-rules
+    - git-conventions
+    - engineering-principles
+    - collaboration
+    - open-source-first
+  commands:
+    - brainstorm
+    - plan
+    - test
+    - verify
+  agents:
+    - architect
+    - test-engineer
+    - verifier

@@ -1,0 +1,36 @@
+# RULE-007 强制: pre-commit hooks（通用基线 — 任何技术栈可安全安装）
+# 本文件使 cicd-rules.md 的 Enforcement 路径真正生效，而非仅停留在文档模板。
+#
+# 按技术栈拆分说明（v4.10.1）：
+#   - 本基线只含通用 hook：Kotlin / Node.js / Cloudflare Workers 等任意栈项目
+#     安装后不会被 Python/TS 专属工具阻断（未匹配文件时 hook 自动跳过）
+#   - Python 栈项目：复制 templates/pre-commit/python.yaml 到项目根并改名为 .pre-commit-config.python.yaml（ruff/bandit/alembic-check）
+#   - 前端 TS 栈项目：复制 templates/pre-commit/frontend.yaml 到项目根并改名为 .pre-commit-config.frontend.yaml（eslint）
+#   - 安装: pip install pre-commit && pre-commit install
+#   - 提交前安全扫描（RULE-008/016）: python scripts/ai_security_lint.py（手动或 CI 调用，
+#     当前仓库存在本地未跟踪文件的既有发现，故不设为 always_run 阻断项）
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: local
+    hooks:
+      - id: plugin-validator
+        name: Plugin manifest validation (RULE-043)
+        entry: python hooks/scripts/plugin-validator.py --check-all
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: component-validator
+        name: Frontend component validation (RULE-034/035/036)
+        entry: python hooks/scripts/component-validator.py --check-components
+        language: system
+        pass_filenames: true
+        types_or: [tsx, ts]
+        always_run: false

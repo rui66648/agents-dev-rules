@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Runtime Configuration",
+  "description": "定义 Agent 运行时环境、Backend 配置、工具集合约",
+  "type": "object",
+  "required": ["workspace", "backends", "tools", "permissions"],
+  "properties": {
+    "workspace": {
+      "type": "object",
+      "description": "工作区配置",
+      "required": ["path", "storage"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "工作区根目录路径"
+        },
+        "storage": {
+          "type": "string",
+          "enum": ["local", "sqlite", "s3", "docker_volume"],
+          "description": "存储后端类型"
+        },
+        "git_integration": {
+          "type": "boolean",
+          "description": "是否启用 Git 集成",
+          "default": true
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["read", "write", "execute", "delete"]
+          }
+        }
+      }
+    },
+    "backends": {
+      "type": "object",
+      "description": "执行后端配置",
+      "required": ["isolate", "container", "browser"],
+      "properties": {
+        "isolate": {
+          "type": "object",
+          "description": "轻量级隔离执行环境",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "timeout": {
+              "type": "integer",
+              "default": 300
+            },
+            "memory_limit_mb": {
+              "type": "integer",
+              "default": 512
+            }
+          }
+        },
+        "container": {
+          "type": "object",
+          "description": "Docker 容器执行环境",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "default_image": {
+              "type": "string",
+              "default": "python:3.11-slim"
+            },
+            "network_mode": {
+              "type": "string",
+              "enum": ["bridge", "host", "none"],
+              "default": "bridge"
+            },
+            "timeout": {
+              "type": "integer",
+              "default": 1800
+            },
+            "memory_limit_mb": {
+              "type": "integer",
+              "default": 2048
+            }
+          }
+        },
+        "browser": {
+          "type": "object",
+          "description": "浏览器 CDP 执行环境",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "headless": {
+              "type": "boolean",
+              "default": true
+            },
+            "viewport": {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "default": 1920
+                },
+                "height": {
+                  "type": "integer",
+                  "default": 1080
+                }
+              }
+            },
+            "timeout": {
+              "type": "integer",
+              "default": 300
+            }
+          }
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "可用工具列表",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "工具名称"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["file", "shell", "network", "browser", "database", "custom"],
+            "description": "工具类型"
+          },
+          "description": {
+            "type": "string",
+            "description": "工具描述"
+          },
+          "backend": {
+            "type": "string",
+            "enum": ["isolate", "container", "browser", "auto"],
+            "default": "auto",
+            "description": "默认执行后端"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "所需权限列表"
+          }
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "description": "权限策略",
+      "required": ["default", "escalation"],
+      "properties": {
+        "default": {
+          "type": "object",
+          "properties": {
+            "file_read": {
+              "type": "boolean",
+              "default": true
+            },
+            "file_write": {
+              "type": "boolean",
+              "default": false
+            },
+            "shell_exec": {
+              "type": "boolean",
+              "default": false
+            },
+            "network_access": {
+              "type": "boolean",
+              "default": true
+            },
+            "browser_access": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "escalation": {
+          "type": "object",
+          "description": "权限升级策略",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "approval_required": {
+              "type": "boolean",
+              "default": true
+            },
+            "max_level": {
+              "type": "integer",
+              "default": 3,
+              "description": "最大权限级别 1-3"
+            }
+          }
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "description": "日志配置",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR"],
+          "default": "INFO"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "text"],
+          "default": "json"
+        },
+        "output": {
+          "type": "string",
+          "default": "stdout"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "workspace": {
+        "path": "/workspace/project",
+        "storage": "local",
+        "git_integration": true,
+        "permissions": ["read", "write"]
+      },
+      "backends": {
+        "isolate": { "enabled": true, "timeout": 300 },
+        "container": { "enabled": true, "default_image": "python:3.11-slim" },
+        "browser": { "enabled": true, "headless": true }
+      },
+      "tools": [
+        { "name": "file_read", "type": "file", "backend": "isolate" },
+        { "name": "shell_run", "type": "shell", "backend": "container" }
+      ],
+      "permissions": {
+        "default": { "file_read": true, "file_write": false },
+        "escalation": { "enabled": true, "approval_required": true }
+      }
+    }
+  ]
+}

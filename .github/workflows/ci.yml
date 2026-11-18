@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop, feature/**, fix/**, agent/**]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # 规则门禁：规则库一致性 + 规则存活性 + Schema 契约（确定性强制）
+  rules-gate:
+    name: 规则门禁
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: pip install pyyaml
+
+      - name: 规则库一致性审计（索引双向对齐 + 悬空路径）
+        run: python scripts/rules-consistency-check.py
+
+      - name: 规则存活性检查（四件套齐备性）
+        run: python scripts/rule-liveness-check.py
+
+      - name: Schema-As-Code 契约校验
+        run: python hooks/schema-validator.py --all --fail-on-violation
+
+      - name: 引用完整性 + 配置一致性
+        run: python hooks/scripts/health-check.py
+
+  # 门禁自证：--selftest 必须全通过，防止门禁给出假绿
+  gate-selftest:
+    name: 门禁自证
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install pyyaml
+
+      - name: rule-liveness-check --selftest
+        run: python scripts/rule-liveness-check.py --selftest
+
+  # 密钥扫描：禁止真实凭据进入公开仓
+  secret-scan:
+    name: 密钥扫描
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 扫描提交历史与工作树中的高危凭据
+        run: |
+          set -euo pipefail
+          PATTERN='(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY|xox[baprs]-[A-Za-z0-9-]{10,})'
+          FOUND=0
+          if git grep -InE "$PATTERN" -- . ; then
+            echo "::error::检测到疑似真实凭据，请移除或替换为占位符"
+            FOUND=1
+          fi
+          if [ "$FOUND" -ne 0 ]; then exit 1; fi
+          echo "OK — 未检测到高危凭据"
+
+  # 拉取请求合并门禁
+  ci-block:
+    name: 合并门禁
+    needs: [rules-gate, gate-selftest, secret-scan]
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
+    steps:
+      - name: 检查依赖任务结果
+        run: |
+          if [ "${{ needs.rules-gate.result }}" != "success" ] || \
+             [ "${{ needs.gate-selftest.result }}" != "success" ] || \
+             [ "${{ needs.secret-scan.result }}" != "success" ]; then
+            echo "::error::合并门禁未通过"
+            exit 1
+          fi
+          echo "OK — 全部门禁通过"

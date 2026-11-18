@@ -1,0 +1,163 @@
+# 根级文件豁免清单（唯一来源，root-cleanliness-check.mjs 只读本文件）
+#
+# fail-closed 规则（由 checker 执行，无任何兜底分支）：
+#   缺 reason 或缺 review_by        → 该条目判违规（不加入放行集合）
+#   review_by < 今天                → 该条目判违规（过期，报红）
+#   review_by 不是 YYYY-MM-DD       → 该条目判违规（格式非法）
+#   配置文件缺失                    → 不放行任何文件，并额外报一条违规
+# 新增豁免必须写 reason / owner / review_by；到期后复核或续期，否则门禁变红。
+
+entries:
+  - path: AGENTS.md
+    reason: 'Agent 入口文件（硬性规则速查与路由表），仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: CLAUDE.md
+    reason: 'Claude 入口文件，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: README.md
+    reason: '仓库说明入口，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: LICENSE
+    reason: '许可证文件，仓根约定位置（Apache-2.0）'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: CONTRIBUTING.md
+    reason: '贡献指南，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: SECURITY.md
+    reason: '安全策略，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: pyproject.toml
+    reason: 'Python 项目清单（门禁脚本依赖声明），仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: tech-stack.md
+    reason: '技术栈声明入口，供 Agent 读取'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: PROJECT_RULES.md
+    reason: '项目规则入口文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: PROJECT_NORMS.md
+    reason: '项目规范入口文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: CUTOVER.md
+    reason: '迁移/切换说明，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: PROGRESS.md
+    reason: '进度记录入口文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: DEPENDENCIES.md
+    reason: '依赖说明入口文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .gitignore
+    reason: 'Git 忽略规则，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .gitattributes
+    reason: 'Git 属性配置，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .env
+    reason: '本地环境变量文件（已被 .gitignore 忽略）'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .env.local
+    reason: '本地环境变量覆盖文件（已被 .gitignore 忽略）'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .pre-commit-config.yaml
+    reason: 'pre-commit 配置必须在仓根才被工具发现'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .db-deploy-done.flag
+    reason: '部署完成标记文件，由部署脚本在仓根读写'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: agent-cmd.json
+    reason: 'Agent 命令清单，工具约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: package.json
+    reason: 'Node 包清单，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: package-lock.json
+    reason: 'npm 锁文件，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: pnpm-lock.yaml
+    reason: 'pnpm 锁文件，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: tsconfig.json
+    reason: 'TypeScript 编译配置，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: verify.ps1
+    reason: '仓根验证入口脚本'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: .kernel-manifest.json
+    reason: '内核清单，工具约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: LICENSE
+    reason: '许可证文件，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: NOTICE
+    reason: '第三方声明文件，仓根约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: docker-compose.local.yml
+    reason: '本地 Docker Compose 编排文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: docker-compose.yml
+    reason: 'Docker Compose 编排文件，约定在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - path: cordis.yaml
+    reason: '真正入口文件——health-check.py:17 读取、plugin-gate.py:36 监听，13 份文档引用；改名会打断引用'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+
+  - pattern: '^\.env\..+$'
+    reason: '.env.* 为环境变量分片（.env.production 等），根级标准配置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^tsconfig\..+\.json$'
+    reason: 'TypeScript 多环境 tsconfig 分片（tsconfig.build.json 等）'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^.+\.config\.(js|mjs|cjs|ts|json|ya?ml)$'
+    reason: '构建与工具链配置（vite.config.ts、eslint.config.js 等），根级即约定位置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^\.(eslintrc|prettierrc|babelrc|stylelintrc|editorconfig).*$'
+    reason: 'lint 与格式化工具的点文件配置'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^pnpm-workspace\.yaml$'
+    reason: 'pnpm workspace 定义，必须在仓根'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^docker-compose[\w.-]*\.ya?ml$'
+    reason: 'Docker Compose 变体编排文件'
+    owner: rules-maintainer
+    review_by: 2027-02-03
+  - pattern: '^.+\.ini$'
+    reason: 'Windows 资源管理器自动重建的 desktop.ini 等系统生成文件；仅按后缀放行，不背书手工维护的 ini 配置（仍按根级散文件治理）'
+    owner: rules-maintainer
+    review_by: 2027-02-03

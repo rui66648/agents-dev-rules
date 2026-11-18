@@ -1,0 +1,5563 @@
+{
+  "version": "2.2.0",
+  "source": "uiverse.io + shadcn/ui registry",
+  "license": "MIT",
+  "updated": "2026-08-30",
+  "description": "精简版组件库元数据（机器可读），保留 153 个核心组件。RULE-035 强制引用。",
+  "schema_version": "2.0.0",
+  "metadata_fields": {
+    "usage": "字符串，说明何时使用该组件（业务语义）",
+    "forbidden": "数组，说明何时禁止使用该组件（负面规则）",
+    "depth_limit": "整数，最大嵌套深度（0=容器，1=普通，2=Modal/Drawer内）",
+    "per_screen_limits": "对象，每屏限制（如 max_primary_buttons: 1）",
+    "required_in": "数组，该组件必须出现在哪些页面模板中",
+    "optional_in": "数组，该组件可出现在哪些页面模板中"
+  },
+  "categories": [
+    {
+      "name": "buttons",
+      "label": "Buttons",
+      "components": [
+        {
+          "name": "fly-arrow-button",
+          "title": "Fly Arrow Button",
+          "author": "adamgiebl",
+          "source": "uiverse.io/adamgiebl/smart-moth-68",
+          "file": "buttons/fly-arrow-button.html",
+          "dependencies": [],
+          "views": "111K",
+          "description": "带飞行动画箭头的按钮",
+          "usage": "C 端营销页的 CTA 按钮，需要动效吸引注意力",
+          "forbidden": [
+            "B 端后台管理页的主操作按钮",
+            "表单提交按钮（动效干扰用户操作）",
+            "删除/销毁操作的确认按钮"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {
+            "max_animated_buttons": 2,
+            "note": "动效按钮过多影响性能与可访问性"
+          },
+          "required_in": [],
+          "optional_in": [
+            "landing_page",
+            "marketing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Button variant='ghost' onClick={handleClick}>了解更多</Button>"
+            ],
+            "incorrect": [
+              "<Button variant='primary' className='animate-bounce'>点击我</Button>"
+            ]
+          },
+          "_category": "buttons"
+        },
+        {
+          "name": "delete-expand-button",
+          "title": "Delete Expand Button",
+          "author": "vinodjangid07",
+          "source": "uiverse.io/vinodjangid07/smart-emu-83",
+          "file": "buttons/delete-expand-button.html",
+          "dependencies": [],
+          "views": "45K",
+          "favorites": "5.2K",
+          "description": "展开确认删除的按钮",
+          "usage": "需要二次确认的删除操作，防误触",
+          "forbidden": [
+            "不可逆的毁灭性操作（应走 Modal 确认）",
+            "高频操作按钮（展开动画影响效率）"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {
+            "max_expand_buttons": 1,
+            "note": "同页面多个展开式删除按钮会造成混乱"
+          },
+          "required_in": [],
+          "optional_in": [
+            "list_page",
+            "detail_page"
+          ],
+          "examples": {
+            "correct": [
+              "<DeleteExpandButton onConfirm={handleDelete} />"
+            ],
+            "incorrect": [
+              "<DeleteExpandButton onConfirm={handlePermanentDelete} /> // 不可逆毁灭操作应走 Modal 确认"
+            ]
+          },
+          "_category": "buttons"
+        },
+        {
+          "name": "social-icons-grid",
+          "title": "Social Icons Grid",
+          "author": "Praashoo7",
+          "source": "uiverse.io/Praashoo7/smooth-crab-52",
+          "file": "buttons/social-icons-grid.html",
+          "dependencies": [],
+          "views": "69K",
+          "favorites": "6K",
+          "description": "社交媒体图标网格",
+          "usage": "页脚社交链接、分享区域",
+          "forbidden": [
+            "主导航中的功能图标（应用 Lucide 等语义化图标）",
+            "操作按钮（应使用 Button 组件）"
+          ],
+          "depth_limit": 0,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page",
+            "footer"
+          ],
+          "examples": {
+            "correct": [
+              "<footer><SocialIconsGrid links={socialLinks} /></footer>"
+            ],
+            "incorrect": [
+              "<nav><SocialIconsGrid links={toolLinks} /></nav> // 主导航功能图标应使用 Lucide"
+            ]
+          },
+          "_category": "buttons"
+        }
+      ]
+    },
+    {
+      "name": "cards",
+      "label": "Cards",
+      "components": [
+        {
+          "name": "code-editor-card",
+          "title": "Code Editor Card",
+          "author": "Yaya12085",
+          "source": "uiverse.io/Yaya12085/ugly-mule-59",
+          "file": "cards/code-editor-card.html",
+          "dependencies": [],
+          "views": "27K",
+          "favorites": "",
+          "description": "代码编辑器风格卡片",
+          "usage": "展示代码片段、技术文档、API 示例",
+          "forbidden": [
+            "业务数据展示（应使用 DataTable/DetailCard）",
+            "移动端主要展示区域"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "docs_page",
+            "landing_page",
+            "dashboard_page"
+          ],
+          "examples": {
+            "correct": [
+              "<CodeEditorCard language='typescript'><pre>{\n  code: 'example'\n}</pre></CodeEditorCard>"
+            ],
+            "incorrect": [
+              "<CodeEditorCard>{userData.name}</CodeEditorCard>"
+            ]
+          },
+          "_category": "cards"
+        },
+        {
+          "name": "glassmorphism-card",
+          "title": "Glassmorphism Card",
+          "author": "monkey_8812",
+          "source": "uiverse.io/monkey_8812/curly-moth-56",
+          "file": "cards/glassmorphism-card.html",
+          "dependencies": [
+            "tailwindcss@2.2.19 (CDN)"
+          ],
+          "views": "24K",
+          "favorites": "916",
+          "description": "毛玻璃效果卡片，依赖 Tailwind CSS",
+          "usage": "C 端 landing page 的特色内容展示卡片",
+          "forbidden": [
+            "B 端后台表格内的数据卡片（性能差）",
+            "暗色模式未适配前不得使用",
+            "WCAG 对比度 < 4.5:1 的内容载体"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {
+            "max_glass_cards_per_screen": 3,
+            "note": "毛玻璃效果过多影响性能与可读性"
+          },
+          "required_in": [],
+          "optional_in": [
+            "landing_page",
+            "dashboard_page"
+          ],
+          "examples": {
+            "correct": [
+              "<div className='backdrop-blur-md bg-white/10 border border-white/20'>特色内容</div>"
+            ],
+            "incorrect": [
+              "<div className='backdrop-blur-md'>暗色模式未适配</div>"
+            ]
+          },
+          "_category": "cards"
+        }
+      ]
+    },
+    {
+      "name": "loaders",
+      "label": "Loaders",
+      "components": [
+        {
+          "name": "simple-css-spinner",
+          "title": "Simple CSS Spinner",
+          "author": "Fernando-sv",
+          "source": "uiverse.io/Fernando-sv/quiet-zebra-41",
+          "file": "loaders/simple-css-spinner.html",
+          "dependencies": [],
+          "views": "25K",
+          "favorites": "675",
+          "description": "纯 CSS 旋转加载器",
+          "usage": "局部加载态（单组件级 loading）",
+          "forbidden": [
+            "全局加载态（应使用 ScreenLoader 或 Skeleton）",
+            "长时间等待场景（>3s 应显示进度条）"
+          ],
+          "depth_limit": 0,
+          "per_screen_limits": {
+            "max_concurrent_spinners": 3,
+            "note": "多个 spinner 同时旋转影响性能"
+          },
+          "required_in": [],
+          "optional_in": [
+            "list_page",
+            "detail_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<div aria-label='加载中'><SimpleCssSpinner /></div>"
+            ],
+            "incorrect": [
+              "<SimpleCssSpinner /> // 大面积加载应使用 Skeleton，长任务应显示进度条"
+            ]
+          },
+          "_category": "loaders"
+        },
+        {
+          "name": "path-morphing-loader",
+          "title": "Path Morphing Loader",
+          "author": "mobinkakei",
+          "source": "uiverse.io/mobinkakei/proud-ladybug-46",
+          "file": "loaders/path-morphing-loader.html",
+          "dependencies": [],
+          "views": "39K",
+          "favorites": "1.4K",
+          "description": "路径变形加载器",
+          "usage": "品牌感强的 landing page 首屏加载",
+          "forbidden": [
+            "B 端后台加载（过于花哨，影响专业感）",
+            "移动端低性能设备（SVG 动画开销大）"
+          ],
+          "depth_limit": 0,
+          "per_screen_limits": {
+            "max_morphing_loaders": 1,
+            "note": "变形动画只能有一个，避免视觉混乱"
+          },
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<PathMorphingLoader />"
+            ],
+            "incorrect": [
+              "<PathMorphingLoader /> // B端后台应使用简单 spinner"
+            ]
+          },
+          "_category": "loaders"
+        }
+      ]
+    },
+    {
+      "name": "tooltips",
+      "label": "Tooltips",
+      "components": [
+        {
+          "name": "faq-tooltip-button",
+          "title": "FAQ Tooltip Button",
+          "author": "vinodjangid07",
+          "source": "uiverse.io/vinodjangid07/funny-panther-79",
+          "file": "tooltips/faq-tooltip-button.html",
+          "dependencies": [],
+          "views": "13K",
+          "favorites": "810",
+          "description": "带 FAQ 提示的按钮",
+          "usage": "复杂字段或专业术语旁的帮助提示",
+          "forbidden": [
+            "主要操作按钮（分散用户注意力）",
+            "移动端触摸区域（tooltip 不可靠）"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {
+            "max_tooltips_per_section": 5,
+            "note": "过多 tooltip 造成认知负担"
+          },
+          "required_in": [],
+          "optional_in": [
+            "form_page",
+            "settings_page",
+            "detail_page"
+          ],
+          "examples": {
+            "correct": [
+              "<FieldLabel>什么是 XX？<FaqTooltipButton content='冒号后的释义' /></FieldLabel>"
+            ],
+            "incorrect": [
+              "<button className='primary'><FaqTooltipButton>帮助</FaqTooltipButton></button> // 主操作按钮装 tooltip"
+            ]
+          },
+          "_category": "tooltips"
+        }
+      ]
+    },
+    {
+      "name": "uiverse_components",
+      "label": "Uiverse_Components",
+      "components": [
+        {
+          "name": "2Fl00rian6_empty-dolphin-52",
+          "title": "Dolphin",
+          "author": "2Fl00rian6",
+          "source": "uiverse.io/2Fl00rian6/2Fl00rian6_empty-dolphin-52.html",
+          "file": "misc/2Fl00rian6_empty-dolphin-52.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='2Fl00rian6_empty-dolphin-52' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n2Fl00Rian6_Empty-Dolphin-52()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "A3zra_empty-lionfish-28",
+          "title": "Lionfish",
+          "author": "A3zra",
+          "source": "uiverse.io/A3zra/A3zra_empty-lionfish-28.html",
+          "file": "misc/A3zra_empty-lionfish-28.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='A3zra_empty-lionfish-28' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nA3Zra_Empty-Lionfish-28()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Ayzen-Dev_empty-dog-31",
+          "title": "Dev_Empty Dog",
+          "author": "Ayzen-Dev",
+          "source": "uiverse.io/Ayzen-Dev/Ayzen-Dev_empty-dog-31.html",
+          "file": "misc/Ayzen-Dev_empty-dog-31.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Ayzen-Dev_empty-dog-31' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAyzen-Dev_Empty-Dog-31()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "EcheverriaJesus_kind-badger-70",
+          "title": "Badger",
+          "author": "EcheverriaJesus",
+          "source": "uiverse.io/EcheverriaJesus/EcheverriaJesus_kind-badger-70.html",
+          "file": "misc/EcheverriaJesus_kind-badger-70.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='EcheverriaJesus_kind-badger-70' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nEcheverriajesus_Kind-Badger-70()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "MetaBlue2000_friendly-chipmunk-57",
+          "title": "Chipmunk",
+          "author": "MetaBlue2000",
+          "source": "uiverse.io/MetaBlue2000/MetaBlue2000_friendly-chipmunk-57.html",
+          "file": "misc/MetaBlue2000_friendly-chipmunk-57.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='MetaBlue2000_friendly-chipmunk-57' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMetablue2000_Friendly-Chipmunk-57()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "MetaBlue2000_hard-fly-61",
+          "title": "Fly",
+          "author": "MetaBlue2000",
+          "source": "uiverse.io/MetaBlue2000/MetaBlue2000_hard-fly-61.html",
+          "file": "misc/MetaBlue2000_hard-fly-61.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='MetaBlue2000_hard-fly-61' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMetablue2000_Hard-Fly-61()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Mike11jr_perfect-badger-81",
+          "title": "Badger",
+          "author": "Mike11jr",
+          "source": "uiverse.io/Mike11jr/Mike11jr_perfect-badger-81.html",
+          "file": "misc/Mike11jr_perfect-badger-81.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Mike11jr_perfect-badger-81' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMike11Jr_Perfect-Badger-81()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Remon125_empty-squid-90",
+          "title": "Squid",
+          "author": "Remon125",
+          "source": "uiverse.io/Remon125/Remon125_empty-squid-90.html",
+          "file": "misc/Remon125_empty-squid-90.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Remon125_empty-squid-90' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nRemon125_Empty-Squid-90()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "StealthWorm_young-badger-81",
+          "title": "Badger",
+          "author": "StealthWorm",
+          "source": "uiverse.io/StealthWorm/StealthWorm_young-badger-81.html",
+          "file": "misc/StealthWorm_young-badger-81.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='StealthWorm_young-badger-81' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nStealthworm_Young-Badger-81()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "TISEPSE_empty-turkey-39",
+          "title": "Turkey",
+          "author": "TISEPSE",
+          "source": "uiverse.io/TISEPSE/TISEPSE_empty-turkey-39.html",
+          "file": "misc/TISEPSE_empty-turkey-39.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='TISEPSE_empty-turkey-39' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nTisepse_Empty-Turkey-39()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "TISEPSE_ugly-badger-82",
+          "title": "Badger",
+          "author": "TISEPSE",
+          "source": "uiverse.io/TISEPSE/TISEPSE_ugly-badger-82.html",
+          "file": "misc/TISEPSE_ugly-badger-82.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='TISEPSE_ugly-badger-82' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nTisepse_Ugly-Badger-82()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "alessandrodesign_empty-rabbit-96",
+          "title": "Rabbit",
+          "author": "alessandrodesign",
+          "source": "uiverse.io/alessandrodesign/alessandrodesign_empty-rabbit-96.html",
+          "file": "misc/alessandrodesign_empty-rabbit-96.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='alessandrodesign_empty-rabbit-96' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlessandrodesign_Empty-Rabbit-96()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "alexmaracinaru_empty-moose-12",
+          "title": "Moose",
+          "author": "alexmaracinaru",
+          "source": "uiverse.io/alexmaracinaru/alexmaracinaru_empty-moose-12.html",
+          "file": "misc/alexmaracinaru_empty-moose-12.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='alexmaracinaru_empty-moose-12' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlexmaracinaru_Empty-Moose-12()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "barisdogansutcu_blue-badger-94",
+          "title": "Badger",
+          "author": "barisdogansutcu",
+          "source": "uiverse.io/barisdogansutcu/barisdogansutcu_blue-badger-94.html",
+          "file": "misc/barisdogansutcu_blue-badger-94.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='barisdogansutcu_blue-badger-94' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBarisdogansutcu_Blue-Badger-94()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_brown-otter-21",
+          "title": "Io_Brown Otter",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_brown-otter-21.html",
+          "file": "buttons/cssbuttons-io_brown-otter-21.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_brown-otter-21' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Brown-Otter-21</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Brown-Otter-21()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_calm-tiger-42",
+          "title": "Io_Calm Tiger",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_calm-tiger-42.html",
+          "file": "buttons/cssbuttons-io_calm-tiger-42.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_calm-tiger-42' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Calm-Tiger-42</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Calm-Tiger-42()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_evil-monkey-41",
+          "title": "Io_Evil Monkey",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_evil-monkey-41.html",
+          "file": "buttons/cssbuttons-io_evil-monkey-41.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_evil-monkey-41' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Evil-Monkey-41</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Evil-Monkey-41()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_fat-tiger-100",
+          "title": "Io_Fat Tiger",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_fat-tiger-100.html",
+          "file": "buttons/cssbuttons-io_fat-tiger-100.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_fat-tiger-100' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Fat-Tiger-100</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Fat-Tiger-100()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_friendly-dragon-76",
+          "title": "Io_Friendly Dragon",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_friendly-dragon-76.html",
+          "file": "buttons/cssbuttons-io_friendly-dragon-76.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_friendly-dragon-76' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Friendly-Dragon-76</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Friendly-Dragon-76()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_funny-dog-69",
+          "title": "Io_Funny Dog",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_funny-dog-69.html",
+          "file": "buttons/cssbuttons-io_funny-dog-69.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_funny-dog-69' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Funny-Dog-69</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Funny-Dog-69()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_massive-mayfly-74",
+          "title": "Io_Massive Mayfly",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_massive-mayfly-74.html",
+          "file": "buttons/cssbuttons-io_massive-mayfly-74.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_massive-mayfly-74' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Massive-Mayfly-74</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Massive-Mayfly-74()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_nice-walrus-6",
+          "title": "Io_Nice Walrus",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_nice-walrus-6.html",
+          "file": "buttons/cssbuttons-io_nice-walrus-6.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_nice-walrus-6' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Nice-Walrus-6</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Nice-Walrus-6()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_plastic-mule-29",
+          "title": "Io_Plastic Mule",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_plastic-mule-29.html",
+          "file": "buttons/cssbuttons-io_plastic-mule-29.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_plastic-mule-29' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Plastic-Mule-29</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Plastic-Mule-29()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_purple-gecko-91",
+          "title": "Io_Purple Gecko",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_purple-gecko-91.html",
+          "file": "buttons/cssbuttons-io_purple-gecko-91.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_purple-gecko-91' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Purple-Gecko-91</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Purple-Gecko-91()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_slippery-jellyfish-67",
+          "title": "Io_Slippery Jellyfish",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_slippery-jellyfish-67.html",
+          "file": "buttons/cssbuttons-io_slippery-jellyfish-67.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_slippery-jellyfish-67' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Slippery-Jellyfish-67</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Slippery-Jellyfish-67()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_stale-rattlesnake-87",
+          "title": "Io_Stale Rattlesnake",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_stale-rattlesnake-87.html",
+          "file": "buttons/cssbuttons-io_stale-rattlesnake-87.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_stale-rattlesnake-87' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Stale-Rattlesnake-87</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Stale-Rattlesnake-87()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_stupid-impala-51",
+          "title": "Io_Stupid Impala",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_stupid-impala-51.html",
+          "file": "buttons/cssbuttons-io_stupid-impala-51.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_stupid-impala-51' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Stupid-Impala-51</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Stupid-Impala-51()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_tame-panda-59",
+          "title": "Io_Tame Panda",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_tame-panda-59.html",
+          "file": "buttons/cssbuttons-io_tame-panda-59.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_tame-panda-59' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Tame-Panda-59</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Tame-Panda-59()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_weak-firefox-5",
+          "title": "Io_Weak Firefox",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_weak-firefox-5.html",
+          "file": "buttons/cssbuttons-io_weak-firefox-5.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_weak-firefox-5' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Weak-Firefox-5</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Weak-Firefox-5()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_wonderful-baboon-62",
+          "title": "Io_Wonderful Baboon",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_wonderful-baboon-62.html",
+          "file": "buttons/cssbuttons-io_wonderful-baboon-62.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_wonderful-baboon-62' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Wonderful-Baboon-62</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Wonderful-Baboon-62()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "danilppzz_loud-badger-4",
+          "title": "Badger",
+          "author": "danilppzz",
+          "source": "uiverse.io/danilppzz/danilppzz_loud-badger-4.html",
+          "file": "misc/danilppzz_loud-badger-4.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='danilppzz_loud-badger-4' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nDanilppzz_Loud-Badger-4()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "gharsh11032000_splendid-badger-80",
+          "title": "Badger",
+          "author": "gharsh11032000",
+          "source": "uiverse.io/gharsh11032000/gharsh11032000_splendid-badger-80.html",
+          "file": "misc/gharsh11032000_splendid-badger-80.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='gharsh11032000_splendid-badger-80' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nGharsh11032000_Splendid-Badger-80()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "lenfear23_empty-lion-5",
+          "title": "Lion",
+          "author": "lenfear23",
+          "source": "uiverse.io/lenfear23/lenfear23_empty-lion-5.html",
+          "file": "misc/lenfear23_empty-lion-5.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='lenfear23_empty-lion-5' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nLenfear23_Empty-Lion-5()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "mrhyddenn_moody-badger-62",
+          "title": "Badger",
+          "author": "mrhyddenn",
+          "source": "uiverse.io/mrhyddenn/mrhyddenn_moody-badger-62.html",
+          "file": "misc/mrhyddenn_moody-badger-62.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='mrhyddenn_moody-badger-62' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMrhyddenn_Moody-Badger-62()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "roufkp_empty-earwig-5",
+          "title": "Earwig",
+          "author": "roufkp",
+          "source": "uiverse.io/roufkp/roufkp_empty-earwig-5.html",
+          "file": "misc/roufkp_empty-earwig-5.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='roufkp_empty-earwig-5' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nRoufkp_Empty-Earwig-5()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "rrr63_empty-cow-96",
+          "title": "Cow",
+          "author": "rrr63",
+          "source": "uiverse.io/rrr63/rrr63_empty-cow-96.html",
+          "file": "misc/rrr63_empty-cow-96.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='rrr63_empty-cow-96' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nRrr63_Empty-Cow-96()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "suda-code_loud-badger-55",
+          "title": "Code_Loud Badger",
+          "author": "suda-code",
+          "source": "uiverse.io/suda-code/suda-code_loud-badger-55.html",
+          "file": "misc/suda-code_loud-badger-55.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='suda-code_loud-badger-55' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nSuda-Code_Loud-Badger-55()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "vinodjangid07_empty-bat-15",
+          "title": "Bat",
+          "author": "vinodjangid07",
+          "source": "uiverse.io/vinodjangid07/vinodjangid07_empty-bat-15.html",
+          "file": "misc/vinodjangid07_empty-bat-15.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='vinodjangid07_empty-bat-15' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nVinodjangid07_Empty-Bat-15()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "vinodjangid07_heavy-badger-29",
+          "title": "Badger",
+          "author": "vinodjangid07",
+          "source": "uiverse.io/vinodjangid07/vinodjangid07_heavy-badger-29.html",
+          "file": "misc/vinodjangid07_heavy-badger-29.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='vinodjangid07_heavy-badger-29' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nVinodjangid07_Heavy-Badger-29()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "vladaxnt_neat-badger-22",
+          "title": "Badger",
+          "author": "vladaxnt",
+          "source": "uiverse.io/vladaxnt/vladaxnt_neat-badger-22.html",
+          "file": "misc/vladaxnt_neat-badger-22.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='vladaxnt_neat-badger-22' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nVladaxnt_Neat-Badger-22()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Cybercom682_empty-wolverine-58",
+          "title": "Wolverine",
+          "author": "Cybercom682",
+          "source": "uiverse.io/Cybercom682/Cybercom682_empty-wolverine-58.html",
+          "file": "misc/Cybercom682_empty-wolverine-58.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Cybercom682_empty-wolverine-58' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCybercom682_Empty-Wolverine-58()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Manish-Tamang_empty-firefox-58",
+          "title": "Tamang_Empty Firefox",
+          "author": "Manish-Tamang",
+          "source": "uiverse.io/Manish-Tamang/Manish-Tamang_empty-firefox-58.html",
+          "file": "misc/Manish-Tamang_empty-firefox-58.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Manish-Tamang_empty-firefox-58' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nManish-Tamang_Empty-Firefox-58()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "MijailVillegas_empty-otter-85",
+          "title": "Otter",
+          "author": "MijailVillegas",
+          "source": "uiverse.io/MijailVillegas/MijailVillegas_empty-otter-85.html",
+          "file": "misc/MijailVillegas_empty-otter-85.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='MijailVillegas_empty-otter-85' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMijailvillegas_Empty-Otter-85()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "MuhammadHasann_fast-badger-70",
+          "title": "Badger",
+          "author": "MuhammadHasann",
+          "source": "uiverse.io/MuhammadHasann/MuhammadHasann_fast-badger-70.html",
+          "file": "misc/MuhammadHasann_fast-badger-70.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='MuhammadHasann_fast-badger-70' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMuhammadhasann_Fast-Badger-70()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Shoh2008_serious-badger-45",
+          "title": "Badger",
+          "author": "Shoh2008",
+          "source": "uiverse.io/Shoh2008/Shoh2008_serious-badger-45.html",
+          "file": "misc/Shoh2008_serious-badger-45.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Shoh2008_serious-badger-45' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nShoh2008_Serious-Badger-45()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "StefanR1901_empty-mule-38",
+          "title": "Mule",
+          "author": "StefanR1901",
+          "source": "uiverse.io/StefanR1901/StefanR1901_empty-mule-38.html",
+          "file": "misc/StefanR1901_empty-mule-38.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='StefanR1901_empty-mule-38' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nStefanr1901_Empty-Mule-38()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Yaya12085_empty-horse-27",
+          "title": "Horse",
+          "author": "Yaya12085",
+          "source": "uiverse.io/Yaya12085/Yaya12085_empty-horse-27.html",
+          "file": "misc/Yaya12085_empty-horse-27.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Yaya12085_empty-horse-27' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nYaya12085_Empty-Horse-27()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Yaya12085_slimy-badger-58",
+          "title": "Badger",
+          "author": "Yaya12085",
+          "source": "uiverse.io/Yaya12085/Yaya12085_slimy-badger-58.html",
+          "file": "misc/Yaya12085_slimy-badger-58.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Yaya12085_slimy-badger-58' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nYaya12085_Slimy-Badger-58()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "vinodjangid07_empty-rabbit-37",
+          "title": "Rabbit",
+          "author": "vinodjangid07",
+          "source": "uiverse.io/vinodjangid07/vinodjangid07_empty-rabbit-37.html",
+          "file": "misc/vinodjangid07_empty-rabbit-37.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='vinodjangid07_empty-rabbit-37' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nVinodjangid07_Empty-Rabbit-37()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "010binary_empty-falcon-21",
+          "title": "Falcon",
+          "author": "010binary",
+          "source": "uiverse.io/010binary/010binary_empty-falcon-21.html",
+          "file": "misc/010binary_empty-falcon-21.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='010binary_empty-falcon-21' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n010Binary_Empty-Falcon-21()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_short-shrimp-54",
+          "title": "Io_Short Shrimp",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_short-shrimp-54.html",
+          "file": "buttons/cssbuttons-io_short-shrimp-54.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_short-shrimp-54' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Short-Shrimp-54</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Short-Shrimp-54()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "lenfear23_hot-badger-62",
+          "title": "Badger",
+          "author": "lenfear23",
+          "source": "uiverse.io/lenfear23/lenfear23_hot-badger-62.html",
+          "file": "misc/lenfear23_hot-badger-62.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='lenfear23_hot-badger-62' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nLenfear23_Hot-Badger-62()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "mobinkakei_tender-badger-3",
+          "title": "Badger",
+          "author": "mobinkakei",
+          "source": "uiverse.io/mobinkakei/mobinkakei_tender-badger-3.html",
+          "file": "misc/mobinkakei_tender-badger-3.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='mobinkakei_tender-badger-3' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMobinkakei_Tender-Badger-3()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "DavidTM96_empty-skunk-88",
+          "title": "Skunk",
+          "author": "DavidTM96",
+          "source": "uiverse.io/DavidTM96/DavidTM96_empty-skunk-88.html",
+          "file": "misc/DavidTM96_empty-skunk-88.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='DavidTM96_empty-skunk-88' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nDavidtm96_Empty-Skunk-88()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ahkamboh_dangerous-badger-27",
+          "title": "Badger",
+          "author": "ahkamboh",
+          "source": "uiverse.io/ahkamboh/ahkamboh_dangerous-badger-27.html",
+          "file": "misc/ahkamboh_dangerous-badger-27.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ahkamboh_dangerous-badger-27' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAhkamboh_Dangerous-Badger-27()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "akshat-patel28_empty-pug-43",
+          "title": "Patel28_Empty Pug",
+          "author": "akshat-patel28",
+          "source": "uiverse.io/akshat-patel28/akshat-patel28_empty-pug-43.html",
+          "file": "misc/akshat-patel28_empty-pug-43.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='akshat-patel28_empty-pug-43' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkshat-Patel28_Empty-Pug-43()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "alexruix_tender-badger-50",
+          "title": "Badger",
+          "author": "alexruix",
+          "source": "uiverse.io/alexruix/alexruix_tender-badger-50.html",
+          "file": "misc/alexruix_tender-badger-50.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='alexruix_tender-badger-50' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlexruix_Tender-Badger-50()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "gharsh11032000_funny-badger-91",
+          "title": "Badger",
+          "author": "gharsh11032000",
+          "source": "uiverse.io/gharsh11032000/gharsh11032000_funny-badger-91.html",
+          "file": "misc/gharsh11032000_funny-badger-91.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='gharsh11032000_funny-badger-91' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nGharsh11032000_Funny-Badger-91()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "guilhermeyohan_yellow-badger-63",
+          "title": "Badger",
+          "author": "guilhermeyohan",
+          "source": "uiverse.io/guilhermeyohan/guilhermeyohan_yellow-badger-63.html",
+          "file": "misc/guilhermeyohan_yellow-badger-63.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='guilhermeyohan_yellow-badger-63' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nGuilhermeyohan_Yellow-Badger-63()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "rahilansari261_odd-badger-94",
+          "title": "Badger",
+          "author": "rahilansari261",
+          "source": "uiverse.io/rahilansari261/rahilansari261_odd-badger-94.html",
+          "file": "misc/rahilansari261_odd-badger-94.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='rahilansari261_odd-badger-94' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nRahilansari261_Odd-Badger-94()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "themrsami_clever-badger-17",
+          "title": "Badger",
+          "author": "themrsami",
+          "source": "uiverse.io/themrsami/themrsami_clever-badger-17.html",
+          "file": "misc/themrsami_clever-badger-17.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='themrsami_clever-badger-17' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nThemrsami_Clever-Badger-17()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Darlley_purple-badger-78",
+          "title": "Badger",
+          "author": "Darlley",
+          "source": "uiverse.io/Darlley/Darlley_purple-badger-78.html",
+          "file": "misc/Darlley_purple-badger-78.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Darlley_purple-badger-78' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nDarlley_Purple-Badger-78()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "TaniaDou_friendly-badger-72",
+          "title": "Badger",
+          "author": "TaniaDou",
+          "source": "uiverse.io/TaniaDou/TaniaDou_friendly-badger-72.html",
+          "file": "misc/TaniaDou_friendly-badger-72.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='TaniaDou_friendly-badger-72' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nTaniadou_Friendly-Badger-72()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Donewenfu_massive-badger-47",
+          "title": "Badger",
+          "author": "Donewenfu",
+          "source": "uiverse.io/Donewenfu/Donewenfu_massive-badger-47.html",
+          "file": "misc/Donewenfu_massive-badger-47.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Donewenfu_massive-badger-47' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nDonewenfu_Massive-Badger-47()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "FWDJc_empty-fish-42",
+          "title": "Fish",
+          "author": "FWDJc",
+          "source": "uiverse.io/FWDJc/FWDJc_empty-fish-42.html",
+          "file": "misc/FWDJc_empty-fish-42.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='FWDJc_empty-fish-42' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nFwdjc_Empty-Fish-42()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "FWDJc_massive-badger-8",
+          "title": "Badger",
+          "author": "FWDJc",
+          "source": "uiverse.io/FWDJc/FWDJc_massive-badger-8.html",
+          "file": "misc/FWDJc_massive-badger-8.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='FWDJc_massive-badger-8' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nFwdjc_Massive-Badger-8()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "isfan4ik_fuzzy-badger-100",
+          "title": "Badger",
+          "author": "isfan4ik",
+          "source": "uiverse.io/isfan4ik/isfan4ik_fuzzy-badger-100.html",
+          "file": "misc/isfan4ik_fuzzy-badger-100.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='isfan4ik_fuzzy-badger-100' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nIsfan4Ik_Fuzzy-Badger-100()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "zombie223_stale-badger-47",
+          "title": "Badger",
+          "author": "zombie223",
+          "source": "uiverse.io/zombie223/zombie223_stale-badger-47.html",
+          "file": "misc/zombie223_stale-badger-47.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='zombie223_stale-badger-47' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nZombie223_Stale-Badger-47()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Yaya12085_empty-badger-73",
+          "title": "Badger",
+          "author": "Yaya12085",
+          "source": "uiverse.io/Yaya12085/Yaya12085_empty-badger-73.html",
+          "file": "misc/Yaya12085_empty-badger-73.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Yaya12085_empty-badger-73' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nYaya12085_Empty-Badger-73()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "asgardOP_great-badger-21",
+          "title": "Badger",
+          "author": "asgardOP",
+          "source": "uiverse.io/asgardOP/asgardOP_great-badger-21.html",
+          "file": "misc/asgardOP_great-badger-21.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='asgardOP_great-badger-21' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAsgardop_Great-Badger-21()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Bodyhc_loud-badger-7",
+          "title": "Badger",
+          "author": "Bodyhc",
+          "source": "uiverse.io/Bodyhc/Bodyhc_loud-badger-7.html",
+          "file": "misc/Bodyhc_loud-badger-7.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Bodyhc_loud-badger-7' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBodyhc_Loud-Badger-7()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "MetaBlue2000_curly-firefox-62",
+          "title": "Firefox",
+          "author": "MetaBlue2000",
+          "source": "uiverse.io/MetaBlue2000/MetaBlue2000_curly-firefox-62.html",
+          "file": "misc/MetaBlue2000_curly-firefox-62.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='MetaBlue2000_curly-firefox-62' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nMetablue2000_Curly-Firefox-62()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Nawsome_empty-snail-69",
+          "title": "Snail",
+          "author": "Nawsome",
+          "source": "uiverse.io/Nawsome/Nawsome_empty-snail-69.html",
+          "file": "misc/Nawsome_empty-snail-69.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Nawsome_empty-snail-69' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nNawsome_Empty-Snail-69()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "SouravBandyopadhyay_empty-grasshopper-29",
+          "title": "Grasshopper",
+          "author": "SouravBandyopadhyay",
+          "source": "uiverse.io/SouravBandyopadhyay/SouravBandyopadhyay_empty-grasshopper-29.html",
+          "file": "misc/SouravBandyopadhyay_empty-grasshopper-29.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='SouravBandyopadhyay_empty-grasshopper-29' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nSouravbandyopadhyay_Empty-Grasshopper-29()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "andrew-demchenk0_empty-penguin-100",
+          "title": "Demchenk0_Empty Penguin",
+          "author": "andrew-demchenk0",
+          "source": "uiverse.io/andrew-demchenk0/andrew-demchenk0_empty-penguin-100.html",
+          "file": "misc/andrew-demchenk0_empty-penguin-100.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='andrew-demchenk0_empty-penguin-100' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAndrew-Demchenk0_Empty-Penguin-100()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "csemszepp_empty-chipmunk-58",
+          "title": "Chipmunk",
+          "author": "csemszepp",
+          "source": "uiverse.io/csemszepp/csemszepp_empty-chipmunk-58.html",
+          "file": "misc/csemszepp_empty-chipmunk-58.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='csemszepp_empty-chipmunk-58' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCsemszepp_Empty-Chipmunk-58()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "cssbuttons-io_mean-dolphin-24",
+          "title": "Io_Mean Dolphin",
+          "author": "cssbuttons-io",
+          "source": "uiverse.io/cssbuttons-io/cssbuttons-io_mean-dolphin-24.html",
+          "file": "buttons/cssbuttons-io_mean-dolphin-24.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "交互式按钮组件",
+          "usage": [
+            "所有交互操作",
+            "表单提交",
+            "导航跳转"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "dashboard_page",
+            "settings_page",
+            "detail_page",
+            "list_page",
+            "form_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='cssbuttons-io_mean-dolphin-24' />",
+              "<button className='btn-primary'>Cssbuttons-Io_Mean-Dolphin-24</button>"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nCssbuttons-Io_Mean-Dolphin-24()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0x-Sarthak_hungry-penguin-30",
+          "title": "Sarthak_Hungry Penguin",
+          "author": "0x-Sarthak",
+          "source": "uiverse.io/0x-Sarthak/0x-Sarthak_hungry-penguin-30.html",
+          "file": "misc/0x-Sarthak_hungry-penguin-30.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0x-Sarthak_hungry-penguin-30' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0X-Sarthak_Hungry-Penguin-30()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0x3ther_afraid-eagle-38",
+          "title": "Eagle",
+          "author": "0x3ther",
+          "source": "uiverse.io/0x3ther/0x3ther_afraid-eagle-38.html",
+          "file": "misc/0x3ther_afraid-eagle-38.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0x3ther_afraid-eagle-38' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0X3Ther_Afraid-Eagle-38()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0x3ther_heavy-dragon-56",
+          "title": "Dragon",
+          "author": "0x3ther",
+          "source": "uiverse.io/0x3ther/0x3ther_heavy-dragon-56.html",
+          "file": "misc/0x3ther_heavy-dragon-56.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0x3ther_heavy-dragon-56' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0X3Ther_Heavy-Dragon-56()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0xnihilism_fast-cat-82",
+          "title": "Cat",
+          "author": "0xnihilism",
+          "source": "uiverse.io/0xnihilism/0xnihilism_fast-cat-82.html",
+          "file": "misc/0xnihilism_fast-cat-82.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0xnihilism_fast-cat-82' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0Xnihilism_Fast-Cat-82()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0xnihilism_helpless-rattlesnake-54",
+          "title": "Rattlesnake",
+          "author": "0xnihilism",
+          "source": "uiverse.io/0xnihilism/0xnihilism_helpless-rattlesnake-54.html",
+          "file": "tooltips/0xnihilism_helpless-rattlesnake-54.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0xnihilism_helpless-rattlesnake-54' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0Xnihilism_Helpless-Rattlesnake-54()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0xnihilism_pretty-fireant-33",
+          "title": "Fireant",
+          "author": "0xnihilism",
+          "source": "uiverse.io/0xnihilism/0xnihilism_pretty-fireant-33.html",
+          "file": "misc/0xnihilism_pretty-fireant-33.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0xnihilism_pretty-fireant-33' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0Xnihilism_Pretty-Fireant-33()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "0xnihilism_quiet-dog-6",
+          "title": "Dog",
+          "author": "0xnihilism",
+          "source": "uiverse.io/0xnihilism/0xnihilism_quiet-dog-6.html",
+          "file": "misc/0xnihilism_quiet-dog-6.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='0xnihilism_quiet-dog-6' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n0Xnihilism_Quiet-Dog-6()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "1osm_black-chicken-65",
+          "title": "Chicken",
+          "author": "1osm",
+          "source": "uiverse.io/1osm/1osm_black-chicken-65.html",
+          "file": "misc/1osm_black-chicken-65.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='1osm_black-chicken-65' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n1Osm_Black-Chicken-65()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "1osm_rude-panda-79",
+          "title": "Panda",
+          "author": "1osm",
+          "source": "uiverse.io/1osm/1osm_rude-panda-79.html",
+          "file": "misc/1osm_rude-panda-79.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='1osm_rude-panda-79' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n1Osm_Rude-Panda-79()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "212004ALJI_fat-eagle-24",
+          "title": "Eagle",
+          "author": "212004ALJI",
+          "source": "uiverse.io/212004ALJI/212004ALJI_fat-eagle-24.html",
+          "file": "misc/212004ALJI_fat-eagle-24.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='212004ALJI_fat-eagle-24' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n212004Alji_Fat-Eagle-24()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "212004ALJI_sour-bullfrog-96",
+          "title": "Bullfrog",
+          "author": "212004ALJI",
+          "source": "uiverse.io/212004ALJI/212004ALJI_sour-bullfrog-96.html",
+          "file": "misc/212004ALJI_sour-bullfrog-96.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='212004ALJI_sour-bullfrog-96' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n212004Alji_Sour-Bullfrog-96()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "212004ALJI_strange-bat-74",
+          "title": "Bat",
+          "author": "212004ALJI",
+          "source": "uiverse.io/212004ALJI/212004ALJI_strange-bat-74.html",
+          "file": "misc/212004ALJI_strange-bat-74.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='212004ALJI_strange-bat-74' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n212004Alji_Strange-Bat-74()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "3bdel3ziz-T_brown-earwig-37",
+          "title": "T_Brown Earwig",
+          "author": "3bdel3ziz-T",
+          "source": "uiverse.io/3bdel3ziz-T/3bdel3ziz-T_brown-earwig-37.html",
+          "file": "misc/3bdel3ziz-T_brown-earwig-37.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='3bdel3ziz-T_brown-earwig-37' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n3Bdel3Ziz-T_Brown-Earwig-37()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "3bdel3ziz-T_dangerous-newt-76",
+          "title": "T_Dangerous Newt",
+          "author": "3bdel3ziz-T",
+          "source": "uiverse.io/3bdel3ziz-T/3bdel3ziz-T_dangerous-newt-76.html",
+          "file": "misc/3bdel3ziz-T_dangerous-newt-76.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='3bdel3ziz-T_dangerous-newt-76' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\n3Bdel3Ziz-T_Dangerous-Newt-76()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_brown-quail-36",
+          "title": "Quail",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_brown-quail-36.html",
+          "file": "misc/AKAspidey01_brown-quail-36.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_brown-quail-36' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Brown-Quail-36()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_jolly-tiger-60",
+          "title": "Tiger",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_jolly-tiger-60.html",
+          "file": "misc/AKAspidey01_jolly-tiger-60.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_jolly-tiger-60' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Jolly-Tiger-60()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_little-penguin-74",
+          "title": "Penguin",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_little-penguin-74.html",
+          "file": "misc/AKAspidey01_little-penguin-74.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_little-penguin-74' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Little-Penguin-74()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_moody-moose-26",
+          "title": "Moose",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_moody-moose-26.html",
+          "file": "misc/AKAspidey01_moody-moose-26.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_moody-moose-26' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Moody-Moose-26()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_orange-donkey-78",
+          "title": "Donkey",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_orange-donkey-78.html",
+          "file": "misc/AKAspidey01_orange-donkey-78.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_orange-donkey-78' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Orange-Donkey-78()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_selfish-puma-31",
+          "title": "Puma",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_selfish-puma-31.html",
+          "file": "misc/AKAspidey01_selfish-puma-31.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_selfish-puma-31' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Selfish-Puma-31()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_sour-eagle-93",
+          "title": "Eagle",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_sour-eagle-93.html",
+          "file": "misc/AKAspidey01_sour-eagle-93.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_sour-eagle-93' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Sour-Eagle-93()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_spotty-husky-49",
+          "title": "Husky",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_spotty-husky-49.html",
+          "file": "misc/AKAspidey01_spotty-husky-49.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_spotty-husky-49' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Spotty-Husky-49()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKAspidey01_ugly-horse-68",
+          "title": "Horse",
+          "author": "AKAspidey01",
+          "source": "uiverse.io/AKAspidey01/AKAspidey01_ugly-horse-68.html",
+          "file": "misc/AKAspidey01_ugly-horse-68.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKAspidey01_ugly-horse-68' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkaspidey01_Ugly-Horse-68()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AKHILJITH-VN_curly-lionfish-0",
+          "title": "Vn_Curly Lionfish",
+          "author": "AKHILJITH-VN",
+          "source": "uiverse.io/AKHILJITH-VN/AKHILJITH-VN_curly-lionfish-0.html",
+          "file": "misc/AKHILJITH-VN_curly-lionfish-0.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AKHILJITH-VN_curly-lionfish-0' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkhiljith-Vn_Curly-Lionfish-0()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Adir-SL_quiet-goose-19",
+          "title": "Sl_Quiet Goose",
+          "author": "Adir-SL",
+          "source": "uiverse.io/Adir-SL/Adir-SL_quiet-goose-19.html",
+          "file": "misc/Adir-SL_quiet-goose-19.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Adir-SL_quiet-goose-19' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAdir-Sl_Quiet-Goose-19()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Admin12121_cold-dodo-65",
+          "title": "Dodo",
+          "author": "Admin12121",
+          "source": "uiverse.io/Admin12121/Admin12121_cold-dodo-65.html",
+          "file": "misc/Admin12121_cold-dodo-65.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Admin12121_cold-dodo-65' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAdmin12121_Cold-Dodo-65()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Admin12121_lovely-cat-86",
+          "title": "Cat",
+          "author": "Admin12121",
+          "source": "uiverse.io/Admin12121/Admin12121_lovely-cat-86.html",
+          "file": "misc/Admin12121_lovely-cat-86.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Admin12121_lovely-cat-86' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAdmin12121_Lovely-Cat-86()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Afacanc38_polite-chipmunk-64",
+          "title": "Chipmunk",
+          "author": "Afacanc38",
+          "source": "uiverse.io/Afacanc38/Afacanc38_polite-chipmunk-64.html",
+          "file": "misc/Afacanc38_polite-chipmunk-64.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Afacanc38_polite-chipmunk-64' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAfacanc38_Polite-Chipmunk-64()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AhSiber_great-gecko-98",
+          "title": "Gecko",
+          "author": "AhSiber",
+          "source": "uiverse.io/AhSiber/AhSiber_great-gecko-98.html",
+          "file": "misc/AhSiber_great-gecko-98.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AhSiber_great-gecko-98' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAhsiber_Great-Gecko-98()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Ahemtan_strong-impala-57",
+          "title": "Impala",
+          "author": "Ahemtan",
+          "source": "uiverse.io/Ahemtan/Ahemtan_strong-impala-57.html",
+          "file": "misc/Ahemtan_strong-impala-57.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Ahemtan_strong-impala-57' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAhemtan_Strong-Impala-57()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AkashKobal_blue-octopus-30",
+          "title": "Octopus",
+          "author": "AkashKobal",
+          "source": "uiverse.io/AkashKobal/AkashKobal_blue-octopus-30.html",
+          "file": "misc/AkashKobal_blue-octopus-30.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AkashKobal_blue-octopus-30' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAkashkobal_Blue-Octopus-30()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Ali-Tahmazi99_big-stingray-4",
+          "title": "Tahmazi99_Big Stingray",
+          "author": "Ali-Tahmazi99",
+          "source": "uiverse.io/Ali-Tahmazi99/Ali-Tahmazi99_big-stingray-4.html",
+          "file": "misc/Ali-Tahmazi99_big-stingray-4.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Ali-Tahmazi99_big-stingray-4' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAli-Tahmazi99_Big-Stingray-4()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AlimurtuzaCodes_average-liger-0",
+          "title": "Liger",
+          "author": "AlimurtuzaCodes",
+          "source": "uiverse.io/AlimurtuzaCodes/AlimurtuzaCodes_average-liger-0.html",
+          "file": "misc/AlimurtuzaCodes_average-liger-0.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AlimurtuzaCodes_average-liger-0' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlimurtuzacodes_Average-Liger-0()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AlimurtuzaCodes_blue-quail-54",
+          "title": "Quail",
+          "author": "AlimurtuzaCodes",
+          "source": "uiverse.io/AlimurtuzaCodes/AlimurtuzaCodes_blue-quail-54.html",
+          "file": "misc/AlimurtuzaCodes_blue-quail-54.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AlimurtuzaCodes_blue-quail-54' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlimurtuzacodes_Blue-Quail-54()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AlimurtuzaCodes_rare-impala-32",
+          "title": "Impala",
+          "author": "AlimurtuzaCodes",
+          "source": "uiverse.io/AlimurtuzaCodes/AlimurtuzaCodes_rare-impala-32.html",
+          "file": "misc/AlimurtuzaCodes_rare-impala-32.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AlimurtuzaCodes_rare-impala-32' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAlimurtuzacodes_Rare-Impala-32()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Allyhere_strong-pug-22",
+          "title": "Pug",
+          "author": "Allyhere",
+          "source": "uiverse.io/Allyhere/Allyhere_strong-pug-22.html",
+          "file": "misc/Allyhere_strong-pug-22.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Allyhere_strong-pug-22' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAllyhere_Strong-Pug-22()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AmIt-DasIT_evil-wolverine-68",
+          "title": "Dasit_Evil Wolverine",
+          "author": "AmIt-DasIT",
+          "source": "uiverse.io/AmIt-DasIT/AmIt-DasIT_evil-wolverine-68.html",
+          "file": "misc/AmIt-DasIT_evil-wolverine-68.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AmIt-DasIT_evil-wolverine-68' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAmit-Dasit_Evil-Wolverine-68()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AmIt-DasIT_gentle-gecko-87",
+          "title": "Dasit_Gentle Gecko",
+          "author": "AmIt-DasIT",
+          "source": "uiverse.io/AmIt-DasIT/AmIt-DasIT_gentle-gecko-87.html",
+          "file": "misc/AmIt-DasIT_gentle-gecko-87.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AmIt-DasIT_gentle-gecko-87' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAmit-Dasit_Gentle-Gecko-87()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Amikas_polite-seahorse-89",
+          "title": "Seahorse",
+          "author": "Amikas",
+          "source": "uiverse.io/Amikas/Amikas_polite-seahorse-89.html",
+          "file": "misc/Amikas_polite-seahorse-89.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Amikas_polite-seahorse-89' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAmikas_Polite-Seahorse-89()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Amir10Amir_big-dolphin-56",
+          "title": "Dolphin",
+          "author": "Amir10Amir",
+          "source": "uiverse.io/Amir10Amir/Amir10Amir_big-dolphin-56.html",
+          "file": "misc/Amir10Amir_big-dolphin-56.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Amir10Amir_big-dolphin-56' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAmir10Amir_Big-Dolphin-56()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AndiBumann_wet-robin-100",
+          "title": "Robin",
+          "author": "AndiBumann",
+          "source": "uiverse.io/AndiBumann/AndiBumann_wet-robin-100.html",
+          "file": "misc/AndiBumann_wet-robin-100.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AndiBumann_wet-robin-100' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAndibumann_Wet-Robin-100()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AndrewHeinke_pink-lion-94",
+          "title": "Lion",
+          "author": "AndrewHeinke",
+          "source": "uiverse.io/AndrewHeinke/AndrewHeinke_pink-lion-94.html",
+          "file": "misc/AndrewHeinke_pink-lion-94.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AndrewHeinke_pink-lion-94' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAndrewheinke_Pink-Lion-94()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AnshKaushal_shy-grasshopper-99",
+          "title": "Grasshopper",
+          "author": "AnshKaushal",
+          "source": "uiverse.io/AnshKaushal/AnshKaushal_shy-grasshopper-99.html",
+          "file": "misc/AnshKaushal_shy-grasshopper-99.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AnshKaushal_shy-grasshopper-99' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAnshkaushal_Shy-Grasshopper-99()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AnthonyPreite_kind-fish-73",
+          "title": "Fish",
+          "author": "AnthonyPreite",
+          "source": "uiverse.io/AnthonyPreite/AnthonyPreite_kind-fish-73.html",
+          "file": "misc/AnthonyPreite_kind-fish-73.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AnthonyPreite_kind-fish-73' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAnthonypreite_Kind-Fish-73()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AqFox_fat-ladybug-84",
+          "title": "Ladybug",
+          "author": "AqFox",
+          "source": "uiverse.io/AqFox/AqFox_fat-ladybug-84.html",
+          "file": "misc/AqFox_fat-ladybug-84.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AqFox_fat-ladybug-84' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAqfox_Fat-Ladybug-84()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AqFox_happy-zebra-99",
+          "title": "Zebra",
+          "author": "AqFox",
+          "source": "uiverse.io/AqFox/AqFox_happy-zebra-99.html",
+          "file": "misc/AqFox_happy-zebra-99.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AqFox_happy-zebra-99' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAqfox_Happy-Zebra-99()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AqFox_nervous-crab-0",
+          "title": "Crab",
+          "author": "AqFox",
+          "source": "uiverse.io/AqFox/AqFox_nervous-crab-0.html",
+          "file": "misc/AqFox_nervous-crab-0.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AqFox_nervous-crab-0' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAqfox_Nervous-Crab-0()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AqFox_pretty-lionfish-11",
+          "title": "Lionfish",
+          "author": "AqFox",
+          "source": "uiverse.io/AqFox/AqFox_pretty-lionfish-11.html",
+          "file": "misc/AqFox_pretty-lionfish-11.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AqFox_pretty-lionfish-11' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAqfox_Pretty-Lionfish-11()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AqFox_tasty-robin-91",
+          "title": "Robin",
+          "author": "AqFox",
+          "source": "uiverse.io/AqFox/AqFox_tasty-robin-91.html",
+          "file": "misc/AqFox_tasty-robin-91.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AqFox_tasty-robin-91' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAqfox_Tasty-Robin-91()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArnavK-09_serious-mouse-19",
+          "title": "09_Serious Mouse",
+          "author": "ArnavK-09",
+          "source": "uiverse.io/ArnavK-09/ArnavK-09_serious-mouse-19.html",
+          "file": "misc/ArnavK-09_serious-mouse-19.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArnavK-09_serious-mouse-19' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArnavk-09_Serious-Mouse-19()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Artahs_yellow-skunk-98",
+          "title": "Skunk",
+          "author": "Artahs",
+          "source": "uiverse.io/Artahs/Artahs_yellow-skunk-98.html",
+          "file": "misc/Artahs_yellow-skunk-98.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Artahs_yellow-skunk-98' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArtahs_Yellow-Skunk-98()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_afraid-fish-22",
+          "title": "Fish",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_afraid-fish-22.html",
+          "file": "misc/ArturCodeCraft_afraid-fish-22.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_afraid-fish-22' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Afraid-Fish-22()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_bad-mayfly-19",
+          "title": "Mayfly",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_bad-mayfly-19.html",
+          "file": "misc/ArturCodeCraft_bad-mayfly-19.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_bad-mayfly-19' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Bad-Mayfly-19()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_big-chipmunk-22",
+          "title": "Chipmunk",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_big-chipmunk-22.html",
+          "file": "misc/ArturCodeCraft_big-chipmunk-22.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景",
+            "简洁风格的页面设计"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_big-chipmunk-22' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Big-Chipmunk-22()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_black-chicken-8",
+          "title": "Chicken",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_black-chicken-8.html",
+          "file": "misc/ArturCodeCraft_black-chicken-8.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_black-chicken-8' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Black-Chicken-8()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_calm-dingo-44",
+          "title": "Dingo",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_calm-dingo-44.html",
+          "file": "misc/ArturCodeCraft_calm-dingo-44.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_calm-dingo-44' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Calm-Dingo-44()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_fresh-hound-11",
+          "title": "Hound",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_fresh-hound-11.html",
+          "file": "misc/ArturCodeCraft_fresh-hound-11.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_fresh-hound-11' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Fresh-Hound-11()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_helpless-baboon-96",
+          "title": "Baboon",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_helpless-baboon-96.html",
+          "file": "tooltips/ArturCodeCraft_helpless-baboon-96.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_helpless-baboon-96' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Helpless-Baboon-96()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_horrible-mule-54",
+          "title": "Mule",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_horrible-mule-54.html",
+          "file": "misc/ArturCodeCraft_horrible-mule-54.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_horrible-mule-54' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Horrible-Mule-54()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_lazy-skunk-20",
+          "title": "Skunk",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_lazy-skunk-20.html",
+          "file": "misc/ArturCodeCraft_lazy-skunk-20.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_lazy-skunk-20' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Lazy-Skunk-20()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_new-dog-56",
+          "title": "Dog",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_new-dog-56.html",
+          "file": "misc/ArturCodeCraft_new-dog-56.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_new-dog-56' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_New-Dog-56()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_silly-firefox-72",
+          "title": "Firefox",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_silly-firefox-72.html",
+          "file": "misc/ArturCodeCraft_silly-firefox-72.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_silly-firefox-72' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Silly-Firefox-72()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "ArturCodeCraft_witty-deer-63",
+          "title": "Deer",
+          "author": "ArturCodeCraft",
+          "source": "uiverse.io/ArturCodeCraft/ArturCodeCraft_witty-deer-63.html",
+          "file": "misc/ArturCodeCraft_witty-deer-63.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='ArturCodeCraft_witty-deer-63' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nArturcodecraft_Witty-Deer-63()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "AyuuLima_modern-wasp-21",
+          "title": "Wasp",
+          "author": "AyuuLima",
+          "source": "uiverse.io/AyuuLima/AyuuLima_modern-wasp-21.html",
+          "file": "misc/AyuuLima_modern-wasp-21.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='AyuuLima_modern-wasp-21' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nAyuulima_Modern-Wasp-21()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "BHARGAVPATEL1244_great-catfish-18",
+          "title": "Catfish",
+          "author": "BHARGAVPATEL1244",
+          "source": "uiverse.io/BHARGAVPATEL1244/BHARGAVPATEL1244_great-catfish-18.html",
+          "file": "misc/BHARGAVPATEL1244_great-catfish-18.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='BHARGAVPATEL1244_great-catfish-18' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBhargavpatel1244_Great-Catfish-18()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "BHARGAVPATEL1244_wise-shrimp-88",
+          "title": "Shrimp",
+          "author": "BHARGAVPATEL1244",
+          "source": "uiverse.io/BHARGAVPATEL1244/BHARGAVPATEL1244_wise-shrimp-88.html",
+          "file": "misc/BHARGAVPATEL1244_wise-shrimp-88.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='BHARGAVPATEL1244_wise-shrimp-88' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBhargavpatel1244_Wise-Shrimp-88()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "BachWorks_heavy-panda-60",
+          "title": "Panda",
+          "author": "BachWorks",
+          "source": "uiverse.io/BachWorks/BachWorks_heavy-panda-60.html",
+          "file": "misc/BachWorks_heavy-panda-60.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='BachWorks_heavy-panda-60' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBachworks_Heavy-Panda-60()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        },
+        {
+          "name": "Baimyrzaev_foolish-mouse-95",
+          "title": "Mouse",
+          "author": "Baimyrzaev",
+          "source": "uiverse.io/Baimyrzaev/Baimyrzaev_foolish-mouse-95.html",
+          "file": "misc/Baimyrzaev_foolish-mouse-95.html",
+          "dependencies": [],
+          "views": "0",
+          "favorites": "0",
+          "description": "UI 组件",
+          "usage": [
+            "通用 UI 场景"
+          ],
+          "forbidden": [
+            "高性能要求的动画敏感场景",
+            "移动设备性能受限场景"
+          ],
+          "depth_limit": 1,
+          "per_screen_limits": {},
+          "required_in": [],
+          "optional_in": [
+            "landing_page"
+          ],
+          "examples": {
+            "correct": [
+              "<Component name='Baimyrzaev_foolish-mouse-95' />"
+            ],
+            "incorrect": [
+              "// ❌ 直接复制粘贴未适配主题色的组件\nBaimyrzaev_Foolish-Mouse-95()\n\n// ✓ 先通过 design-tokens 适配当前主题"
+            ]
+          },
+          "_category": "uiverse_components"
+        }
+      ]
+    }
+  ],
+  "shadcn_registry": {
+    "description": "shadcn/ui 组件元数据（从 registry 获取，与 uiverse.io 互补）",
+    "base_components": [
+      {
+        "name": "Button",
+        "variants": [
+          "primary",
+          "secondary",
+          "destructive",
+          "outline",
+          "ghost",
+          "link"
+        ],
+        "usage": "所有交互按钮的基础组件",
+        "forbidden": [
+          " destroy 操作必须用 destructive variant",
+          "导航应使用 link variant 或 <a> 标签"
+        ],
+        "depth_limit": 1,
+        "per_screen_limits": {
+          "max_primary": 1,
+          "max_destructive_per_action_group": 1
+        },
+        "required_in": [
+          "list_page",
+          "detail_page",
+          "form_page",
+          "settings_page",
+          "dashboard_page",
+          "error_page"
+        ],
+        "optional_in": [],
+        "examples": {
+          "correct": [
+            "<Button variant='primary'>提交表单</Button>",
+            "<Button variant='destructive'>删除账户</Button>",
+            "<Button variant='link' asChild><a href='/home'>返回首页</a></Button>"
+          ],
+          "incorrect": [
+            "<Button variant='primary'>删除账户</Button> // destructive 应用 destructive variant",
+            "<Button variant='link'>点击这里</Button> // 导航应使用 <a> 标签"
+          ]
+        }
+      },
+      {
+        "name": "Card",
+        "structure": [
+          "CardHeader",
+          "CardTitle",
+          "CardDescription",
+          "CardContent",
+          "CardFooter"
+        ],
+        "usage": "内容区块容器，必须含 Header+Body",
+        "forbidden": [
+          "嵌套 Card（Card 内不再套 Card）",
+          "Card 内套 Modal/Drawer（应扁平化）",
+          "无 Header 的 Card（必须有标题）"
+        ],
+        "depth_limit": 1,
+        "per_screen_limits": {
+          "max_card_depth": 3,
+          "max_cards_per_screen": 12
+        },
+        "required_in": [
+          "dashboard_page",
+          "detail_page"
+        ],
+        "optional_in": [
+          "list_page",
+          "settings_page"
+        ],
+        "examples": {
+          "correct": [
+            "<Card><CardHeader><CardTitle>用户信息</CardTitle></CardHeader><CardContent>详情内容</CardContent></Card>",
+            "<Card><CardHeader><CardTitle>统计卡片</CardTitle></CardHeader><CardContent><StatChart /></CardContent></Card>"
+          ],
+          "incorrect": [
+            "<Card><CardContent>无 Header</CardContent> // 必须有 CardHeader",
+            "<Card><CardHeader>外</CardHeader><CardContent><Card>内</Card></CardContent></Card> // 禁止 Card 嵌套"
+          ]
+        }
+      },
+      {
+        "name": "Modal",
+        "usage": "需要阻断用户操作的确认/录入场景",
+        "forbidden": [
+          "嵌套 Modal（Modal 内不能再开 Modal）",
+          "长表单应使用 Drawer 而非 Modal",
+          "非阻断操作不应使用 Modal"
+        ],
+        "depth_limit": 2,
+        "per_screen_limits": {
+          "max_modal_depth": 2,
+          "note": "Modal 内最多再套 1 层 Drawer"
+        },
+        "required_in": [],
+        "optional_in": [
+          "list_page",
+          "detail_page",
+          "form_page"
+        ],
+        "examples": {
+          "correct": [
+            "<Modal title='确认删除'><ModalContent>确定删除此项目？</ModalContent><ModalFooter><Button variant='destructive'>删除</Button></ModalFooter></Modal>",
+            "<Modal title='编辑信息'><Form /> // 短表单可用 Modal</Modal>"
+          ],
+          "incorrect": [
+            "<Modal title='设置'><Modal><ModalTitle>嵌套 Modal</ModalTitle></Modal></Modal> // 禁止嵌套 Modal",
+            "<Modal title='复杂表单'><LongForm /></Modal> // 长表单应使用 Drawer"
+          ]
+        }
+      },
+      {
+        "name": "Drawer",
+        "usage": "侧边录入/配置面板，替代 Modal 处理复杂表单",
+        "forbidden": [
+          "嵌套 Drawer（Drawer 内不能再开 Drawer）",
+          "简单确认操作应使用 Modal 而非 Drawer"
+        ],
+        "depth_limit": 2,
+        "per_screen_limits": {
+          "max_drawer_depth": 2
+        },
+        "required_in": [],
+        "optional_in": [
+          "form_page",
+          "settings_page",
+          "detail_page"
+        ],
+        "examples": {
+          "correct": [
+            "<Drawer title='编辑用户'><UserForm /><DrawerFooter><Button>保存</Button></DrawerFooter></Drawer>",
+            "<Drawer><SettingsForm /></Drawer> // 复杂配置用 Drawer"
+          ],
+          "incorrect": [
+            "<Drawer title='确认'><Drawer><Drawer title='嵌套'>内层</Drawer></Drawer></Drawer> // 禁止嵌套 Drawer",
+            "<Drawer title='简单确认'><Button>是</Button></Drawer> // 简单操作应用 Modal"
+          ]
+        }
+      },
+      {
+        "name": "DataTable",
+        "usage": "结构化数据展示，支持排序/筛选/分页/选择",
+        "forbidden": [
+          "单条数据展示（应使用 DetailCard）",
+          "非结构化内容（应用 Card 而非 Table）"
+        ],
+        "depth_limit": 1,
+        "per_screen_limits": {
+          "max_rows_visible": 20,
+          "note": "超过 20 行必须启用分页"
+        },
+        "required_in": [
+          "list_page"
+        ],
+        "optional_in": [
+          "dashboard_page"
+        ],
+        "examples": {
+          "correct": [
+            "<DataTable columns={columns} data={users} pagination={<Pagination />} />",
+            "<DataTable filter={<FilterBar />} sort={handleSort} />"
+          ],
+          "incorrect": [
+            "<DataTable><SingleUserCard /></DataTable> // 单条数据应用 DetailCard",
+            "<DataTable><BlogPost /></DataTable> // 非结构化内容应用 Card"
+          ]
+        }
+      },
+      {
+        "name": "FilterBar",
+        "usage": "列表页的筛选条件区，支持 sticky 定位",
+        "forbidden": [
+          "详情页使用（应使用 Tabs 组织信息）",
+          "表单页使用（应使用 Form 字段）"
+        ],
+        "depth_limit": 1,
+        "per_screen_limits": {},
+        "required_in": [
+          "list_page"
+        ],
+        "optional_in": [],
+        "examples": {
+          "correct": [
+            "<FilterBar><Select /><Input /><DatePicker /></FilterBar>",
+            "<FilterBar sticky><SearchInput /></FilterBar> // 支持 sticky 定位"
+          ],
+          "incorrect": [
+            "<FilterBar>详情页</FilterBar> // 详情页应用 Tabs",
+            "<FilterBar><Form /></FilterBar> // 表单页应用 Form 字段"
+          ]
+        }
+      },
+      {
+        "name": "Pagination",
+        "usage": "大数据量列表的分页控件",
+        "forbidden": [],
+        "depth_limit": 1,
+        "per_screen_limits": {},
+        "required_in": [
+          "list_page"
+        ],
+        "optional_in": [
+          "dashboard_page"
+        ],
+        "examples": {
+          "correct": [
+            "<Pagination total={100} pageSize={20} />"
+          ],
+          "incorrect": [
+            "<Pagination total={5} /> // 数据不足一页不应显示分页"
+          ]
+        }
+      },
+      {
+        "name": "Tabs",
+        "usage": "互斥的信息分组展示",
+        "forbidden": [
+          "嵌套 Tabs（TabPanel 内不再套 Tabs）",
+          "作为主要导航（应用 Sidebar/Nav）"
+        ],
+        "depth_limit": 1,
+        "per_screen_limits": {
+          "max_tabs": 8,
+          "note": "超过 8 个 tab 应考虑折叠或分页"
+        },
+        "required_in": [],
+        "optional_in": [
+          "detail_page",
+          "settings_page",
+          "dashboard_page"
+        ],
+        "examples": {
+          "correct": [
+            "<Tabs defaultValue='info'><TabsList><TabsTrigger>信息</TabsTrigger></TabsList><TabsContent>详情</TabsContent></Tabs>",
+            "<Tabs><TabsList><TabsTrigger>基础</TabsTrigger><TabsTrigger>高级</TabsTrigger></TabsList></Tabs>"
+          ],
+          "incorrect": [
+            "<Tabs><Tabs><TabPanel>嵌套 Tabs</TabPanel></Tabs></Tabs> // 禁止嵌套 Tabs",
+            "<Tabs><TabsTrigger>首页</TabsTrigger></Tabs> // 主要导航应用 Sidebar"
+          ]
+        }
+      },
+      {
+        "name": "EmptyState",
+        "usage": "数据为空时的占位展示",
+        "forbidden": [],
+        "depth_limit": 0,
+        "per_screen_limits": {},
+        "required_in": [
+          "list_page",
+          "dashboard_page"
+        ],
+        "optional_in": [
+          "detail_page"
+        ],
+        "examples": {
+          "correct": [
+            "<EmptyState icon='inbox' title='暂无数据'><Button>创建第一条</Button></EmptyState>",
+            "<EmptyState description='请先添加筛选条件' />"
+          ],
+          "incorrect": [
+            "<EmptyState><DataTable /></EmptyState> // EmptyState 不应包含数据组件",
+            "<EmptyState /> // 必须有 title 或 description"
+          ]
+        }
+      },
+      {
+        "name": "Skeleton",
+        "usage": "加载态占位（替代 spinner 用于大面积加载）",
+        "forbidden": [
+          "小范围加载（应使用 spinner）",
+          "已知内容的骨架屏（避免误导用户）"
+        ],
+        "depth_limit": 0,
+        "per_screen_limits": {},
+        "required_in": [
+          "list_page",
+          "detail_page",
+          "dashboard_page"
+        ],
+        "optional_in": [],
+        "examples": {
+          "correct": [
+            "<Skeleton className='h-4 w-3/4' /><Skeleton className='h-10 w-full' />",
+            "<SkeletonCard /><SkeletonTable /> // 大面积加载用 Skeleton"
+          ],
+          "incorrect": [
+            "<Spinner /> // 小范围加载应使用 spinner",
+            "<Skeleton>{已知内容}</Skeleton> // 已知内容不应显示骨架屏"
+          ]
+        }
+      }
+    ]
+  },
+  "validation_rules": {
+    "component_name_must_exist": "AI 生成的组件名必须在 catalog 中，否则打回重生成",
+    "depth_check": "递归检查 JSX 树，嵌套深度不得超过组件定义的 depth_limit",
+    "primary_button_count": "每页面 primary variant Button 不得超过 per_screen_limits.max_primary",
+    "forbidden_combination": "检查 forbidden 数组中定义的组合，命中则阻断",
+    "token_consistency": "颜色/间距必须使用设计令牌（design tokens），禁止裸 hex 值"
+  },
+  "cleanup_history": {
+    "timestamp": "2026-08-30T10:02:29.790554",
+    "original_count": 3811,
+    "kept_count": 153,
+    "removed_count": 3658,
+    "strategy": "基于多维度评分的精确筛选，保留 Top 153 组件"
+  }
+}

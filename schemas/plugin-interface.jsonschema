@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dev-process-rules.local/schemas/plugin-interface.jsonschema",
+  "title": "Plugin Interface",
+  "description": "插件清单契约 — 定义技能/规则/命令/Agent 作为插件的能力单元接口（落实 RULE-042/RULE-043）",
+  "type": "object",
+  "required": ["name", "version", "type"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "插件唯一标识（kebab-case）"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "语义化版本（vX.Y.Z）"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["skill", "rule", "command", "agent"],
+      "description": "插件类型"
+    },
+    "description": {
+      "type": "string",
+      "description": "插件描述"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "最后更新日期（YYYY-MM-DD）"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "默认启用状态"
+    },
+    "mode": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["standard", "minimal", "creator"]
+      },
+      "default": ["standard"],
+      "description": "所属运行时模式"
+    },
+    "interface": {
+      "type": "object",
+      "description": "接口契约（输入/输出）",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "required": { "type": "boolean", "default": false },
+              "description": { "type": "string" }
+            }
+          },
+          "description": "输入参数列表"
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          },
+          "description": "输出产物列表"
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "description": "插件级配置（默认值）",
+      "additionalProperties": true
+    },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "前置依赖插件 ID"
+    },
+    "composes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "可组合的下游插件 ID"
+    },
+    "rule_id": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^RULE-\\d{3}$" },
+      "description": "规则插件：关联的规则编号"
+    },
+    "level": {
+      "type": "string",
+      "enum": ["铁律", "建议", "可选"],
+      "description": "规则插件：规则等级"
+    },
+    "enforcement": {
+      "type": "string",
+      "description": "规则插件：强制执行方式"
+    },
+    "maps_to": {
+      "type": "string",
+      "description": "命令插件：关联的技能路径"
+    },
+    "triggers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "命令插件：触发关键词"
+    },
+    "owns": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Agent 插件：负责的技能列表"
+    }
+  },
+  "additionalProperties": true
+}

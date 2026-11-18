@@ -1,0 +1,59 @@
+# cordis.yaml - 插件组合配置
+# 参考 DeepSeek Harness / Cordis 配置驱动组合：同一规则库，不同配置 → 不同开发模式
+# 落实 RULE-042（插件组装优先）、RULE-043（插件清单合规）
+version: 1
+
+# 当前运行时模式：standard | minimal | creator
+mode: standard
+
+# 模式定义文件（presets/ 目录）
+preset: presets/standard.yaml
+
+# 插件覆盖配置：在此启用/禁用/配置插件（覆盖 preset 默认值）
+# 未在此列出的插件按 preset 默认值执行
+plugins:
+  # 技能插件（type: skill）
+  - id: brainstorming
+    enabled: true
+    config:
+      research: true
+  - id: code-review
+    enabled: true
+  - id: test-driven-development
+    enabled: true
+
+  # 规则插件（type: rule）
+  - id: open-source-first
+    enabled: true
+  - id: security-rules
+    enabled: true
+  - id: schema-as-code
+    enabled: true
+
+  # 命令插件（type: command）
+  - id: brainstorm
+    enabled: true
+  - id: plan
+    enabled: true
+  - id: verify
+    enabled: true
+
+  # Agent 插件（type: agent）
+  - id: architect
+    enabled: true
+  - id: verifier
+    enabled: true
+
+# 外部 MCP 能力（非规则体系插件，通过 MCP 配置启用，见 AGENTS.md §6）
+#   web-search          → MCP web-search server
+#   browser-automation  → 按 RULE-BROWSER 路由：优先平台内置 TRAE-browseruse；
+#                         chrome-devtools MCP 仅在用户明确指令或 CI 无内置浏览器时使用
+
+# RULE-051 状态（v4.10.1 如实标注）：
+#   本仓库当前未实际组装 @deepseek-ai/dsh-* 运行时插件（上方 plugins 均为内部
+#   skills/rules/commands/agents 能力单元）；DSH/Cordis 采用目前为文档级决策
+#   （rules/open-source-first.md v3.5.0 + ADR-005）。实际组装时必须锁精确版本。
+
+# 模式切换示例：
+#   minimal:  cordis.yaml 中 mode: minimal（仅核心闭环）
+#   creator:  cordis.yaml 中 mode: creator（全量 + 安全验证强化）

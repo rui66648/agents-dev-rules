@@ -1,0 +1,58 @@
+name: 规则新增 / 修改提案
+description: 提议新增规则、修订现有规则或补充技能
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        提议新规则前，请先确认它**无法**由现有规则覆盖。
+        规则数量本身是成本——每条规则都要维护触发入口、产物落点、模板、判据四件套。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解决的问题
+      description: 当前流程在哪一步会走偏？后果是什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 提议内容
+      description: 规则正文草稿，或对现有规则的修订建议
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target
+    attributes:
+      label: 落地位置
+      options:
+        - rules/ 下的新规则文件
+        - 修订现有规则
+        - skills/ 下的新技能
+        - commands/ 或 agents/ 登记
+        - 门禁脚本增强
+    validations:
+      required: true
+
+  - type: textarea
+    id: four-pieces
+    attributes:
+      label: 四件套设计
+      description: |
+        请说明该规则的：
+        1. **触发入口** —— 代理何时会读到它（AGENTS.md §2 入口路由登记项）
+        2. **产物落点** —— 相关产物写到哪个路径
+        3. **模板** —— templates/ 下对应的模板
+        4. **判据** —— 用什么检查它是否被遵守（门禁脚本或人工判据）
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的替代方案
+      description: 有没有更轻量的做法（如并入现有规则、或只在某类项目启用）？

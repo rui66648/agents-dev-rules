@@ -1,0 +1,392 @@
+# Design Tokens Schema — 通用设计令牌语义定义
+# 设计令牌语义定义 — 所有颜色值必须通过此文件引用
+# 规范: 每个 Token 必须定义 domains（允许域）和 forbidden_domains（禁止域）
+# 命名架构: 三层语义命名（primitive → semantic → component）
+#   Layer 1 primitive  原始令牌，对应裸色值/字号，禁止直接出现在组件中
+#   Layer 2 semantic   语义令牌，对应功能含义（如 color.success），组件层必须引用
+#   Layer 3 component  组件令牌，对应具体组件属性（如 button.bg.primary），最终 UI 引用
+# 校验规则: AI 生成的样式只允许引用 Layer 2/3，禁止裸 hex 与 primitive 直用（component-validator.py 强制执行）
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+name: "ui-design-tokens"
+version: "2.0.0"
+
+layers:
+  primitive:
+    description: "原始色值层，作为 Layer 2 的后端取值源，禁止被组件直接引用"
+    rule: "component-validator.py 检测到组件中引用 primitive token 或裸 hex→error"
+  semantic:
+    description: "语义令牌层，表达功能的含义（状态/类型/层级），组件属性引用此层"
+    rule: "AI 选择语义令牌时，参考 domains/forbidden_domains 匹配业务语义"
+  component:
+    description: "组件令牌层，绑定到具体组件属性（如 button_bg_primary），是 UI 最终落地层"
+    rule: "新组件如需专属令牌，先检查 semantic 层是否满足，满足则复用，否则新增 component token"
+
+# ===== Layer 3: Component Tokens（组件令牌，UI 最终引用层） =====
+component_tokens:
+  button_bg_primary: { ref: "semantic.color.brand-primary", domains: ["primary-button"], forbidden_domains: ["destructive"], note: "主要按钮背景" }
+  button_bg_destructive: { ref: "semantic.color.status-danger", domains: ["destructive-button"], forbidden_domains: ["primary", "success"], note: "破坏性按钮背景" }
+  button_text_primary: { ref: "semantic.color.text-primary", domains: ["button-label"], forbidden_domains: ["muted", "dim"], note: "按钮文本" }
+  card_bg: { ref: "semantic.color.surface-primary", domains: ["card", "panel"], forbidden_domains: ["text"], note: "卡片背景" }
+  input_bg: { ref: "semantic.color.brand-secondary", domains: ["input"], forbidden_domains: ["page-bg"], note: "输入框背景" }
+  input_border: { ref: "semantic.color.border-primary", domains: ["input-border"], forbidden_domains: ["focus"], note: "输入框边框" }
+  focus_ring: { ref: "semantic.color.border-focus", domains: ["focus-ring"], forbidden_domains: [], note: "焦点环" }
+
+tokens:
+  color:
+    # ===== Layer 2: Semantic - 品牌色 =====
+    brand-primary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-500"
+      value: "#34D399"
+      domains: ["brand", "action", "primary-button", "success", "positive", "enabled"]
+      forbidden_domains: ["error", "warning", "destructive", "blocking", "hint", "info"]
+      explanation: "品牌主色，用于主要操作按钮和成功状态，禁止用于错误/警告/提示场景"
+
+    brand-primary-hover:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-600"
+      value: "#10B981"
+      domains: ["brand", "action-hover", "primary-button-hover"]
+      forbidden_domains: ["error", "warning", "destructive"]
+      explanation: "品牌主色悬停态"
+
+    brand-secondary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-800"
+      value: "#2E3348"
+      domains: ["brand", "secondary-bg", "input-bg"]
+      forbidden_domains: ["text", "border", "interactive"]
+      explanation: "品牌次要背景色"
+
+    brand-secondary-hover:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-750"
+      value: "#3D4360"
+      domains: ["brand", "secondary-hover"]
+      forbidden_domains: ["text", "border"]
+      explanation: "品牌次要背景悬停态"
+
+    # ===== Layer 2: Semantic - 状态色 =====
+    status-danger:
+      layer: "semantic"
+      primitive_ref: "primitive.color.red-400"
+      value: "#F87171"
+      domains: ["error", "destructive", "blocking", "critical", "delete", "remove"]
+      forbidden_domains: ["hint", "success", "info", "decorative", "muted", "positive"]
+      explanation: "阻断性错误，禁止用于提示/成功/装饰场景"
+
+    status-warning:
+      layer: "semantic"
+      primitive_ref: "primitive.color.amber-400"
+      value: "#FBBF24"
+      domains: ["warning", "caution", "pending", "attention"]
+      forbidden_domains: ["success", "error", "critical", "blocking", "info"]
+      explanation: "警告状态，禁止与成功/错误混淆使用"
+
+    status-success:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-500"
+      value: "#34D399"  # 同 brand-primary，但语义不同
+      domains: ["success", "positive", "confirmed", "verified", "connected"]
+      forbidden_domains: ["error", "warning", "destructive", "blocking", "critical"]
+      explanation: "成功状态，禁止用于错误/警告场景"
+
+    status-info:
+      layer: "semantic"
+      primitive_ref: "primitive.color.blue-400"
+      value: "#60A5FA"
+      domains: ["info", "help", "hint", "neutral", "secondary-action"]
+      forbidden_domains: ["error", "warning", "success", "destructive", "blocking", "critical"]
+      explanation: "信息提示，禁止用于错误/成功/警告场景"
+
+    status-pending:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-500"
+      value: "#7C8597"
+      domains: ["pending", "neutral", "awaiting"]
+      forbidden_domains: ["error", "success", "warning", "blocking"]
+      explanation: "待处理状态，禁止用于错误/成功/警告场景"
+
+    # ===== Layer 2: Semantic - 文本色 =====
+    text-primary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-100"
+      value: "#E4E6F0"
+      domains: ["body-text", "heading", "label", "primary-content"]
+      forbidden_domains: ["background", "border", "decorative", "muted"]
+      explanation: "主文本色，用于正文和标题，禁止用于背景或边框"
+
+    text-secondary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-300"
+      value: "#989CB4"
+      domains: ["secondary-text", "caption", "description", "tertiary-content"]
+      forbidden_domains: ["heading", "critical", "blocking", "interactive"]
+      explanation: "次要文本色，用于辅助说明，禁止用于标题或关键信息"
+
+    text-dim:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-500"
+      value: "#7C8597"
+      domains: ["placeholder", "disabled", "tertiary-text", "metadata"]
+      forbidden_domains: ["heading", "critical", "blocking", "interactive", "body-text"]
+      explanation: "第三方文本色，对比度较低（约 4.2:1），禁止用于正文或关键信息"
+
+    # ===== Layer 2: Semantic - 背景色 =====
+    surface-primary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-900"
+      value: "#111827"
+      domains: ["background", "card-bg", "panel-bg", "surface"]
+      forbidden_domains: ["text", "border", "interactive"]
+      explanation: "主背景色，用于卡片和面板背景"
+
+    surface-secondary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-800"
+      value: "#1F2937"
+      domains: ["background-alt", "card-bg-alt", "surface-alt"]
+      forbidden_domains: ["text", "border", "interactive"]
+      explanation: "次要背景色"
+
+    bg-primary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-950"
+      value: "#0B0D12"
+      domains: ["page-bg", "background", "viewport-bg"]
+      forbidden_domains: ["text", "card-bg", "interactive"]
+      explanation: "页面背景色"
+
+    # ===== Layer 2: Semantic - 边框色 =====
+    border-primary:
+      layer: "semantic"
+      primitive_ref: "primitive.color.gray-800"
+      value: "#2E3348"
+      domains: ["border", "divider", "separator", "input-border"]
+      forbidden_domains: ["background", "text", "interactive"]
+      explanation: "主边框色"
+
+    border-focus:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-500"
+      value: "#34D399"
+      domains: ["border-focus", "input-focus", "focus-ring"]
+      forbidden_domains: ["text", "background", "border-default"]
+      explanation: "焦点边框色，用于输入框和交互元素焦点态"
+
+    # ===== Layer 2: Semantic - 路由层级色 =====
+    route-vision:
+      layer: "semantic"
+      primitive_ref: "primitive.color.violet-400"
+      value: "#A78BFA"
+      domains: ["route-vision", "model-tier-vision", "ai-vision"]
+      forbidden_domains: ["route-reason", "route-coder", "route-fast", "route-auto", "error", "success"]
+      explanation: "视觉模型路由色，禁止与其他路由层级混用"
+
+    route-reason:
+      layer: "semantic"
+      primitive_ref: "primitive.color.pink-400"
+      value: "#F472B6"
+      domains: ["route-reason", "model-tier-reason", "ai-reason"]
+      forbidden_domains: ["route-vision", "route-coder", "route-fast", "route-auto", "error", "success"]
+      explanation: "推理模型路由色"
+
+    route-coder:
+      layer: "semantic"
+      primitive_ref: "primitive.color.blue-400"
+      value: "#60A5FA"
+      domains: ["route-coder", "model-tier-coder", "ai-code"]
+      forbidden_domains: ["route-vision", "route-reason", "route-fast", "route-auto", "error", "success"]
+      explanation: "代码模型路由色"
+
+    route-fast:
+      layer: "semantic"
+      primitive_ref: "primitive.color.amber-400"
+      value: "#FBBF24"
+      domains: ["route-fast", "model-tier-fast", "ai-quick"]
+      forbidden_domains: ["route-vision", "route-reason", "route-coder", "route-auto", "error", "success"]
+      explanation: "快速模型路由色"
+
+    route-auto:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-500"
+      value: "#34D399"
+      domains: ["route-auto", "model-tier-auto", "ai-general"]
+      forbidden_domains: ["route-vision", "route-reason", "route-coder", "route-fast", "error", "success"]
+      explanation: "自动路由色（同 brand-primary，但语义不同）"
+
+    # ===== Layer 2: Semantic - 模型类型色 =====
+    model-nim:
+      layer: "semantic"
+      primitive_ref: "primitive.color.amber-400"
+      value: "#FBBF24"
+      domains: ["model-type-nim", "nvidia-nim", "gpu-accelerated"]
+      forbidden_domains: ["model-type-api", "model-type-free", "error", "success"]
+      explanation: "NVIDIA NIM 模型标识色"
+
+    model-api:
+      layer: "semantic"
+      primitive_ref: "primitive.color.emerald-500"
+      value: "#34D399"
+      domains: ["model-type-api", "api-key-auth", "enterprise"]
+      forbidden_domains: ["model-type-nim", "model-type-free", "error", "success"]
+      explanation: "API Key 认证模型标识色"
+
+    model-free:
+      layer: "semantic"
+      primitive_ref: "primitive.color.blue-400"
+      value: "#60A5FA"
+      domains: ["model-type-free", "free-tier", "trial"]
+      forbidden_domains: ["model-type-nim", "model-type-api", "error", "success"]
+      explanation: "免费模型标识色"
+
+    # ===== Layer 1: Primitive - 色板（取值源，禁止直接引用） =====
+    # 每个 semantic token 通过 primitive_ref 指向此处，组件禁止引用 primitive
+    primitive:
+      _docs: "Layer 1 原始色板，仅供 semantic/component 层引用。AI 生成样式禁止直接使用这些 hex。"
+      gray-950: "#0B0D12"
+      gray-900: "#111827"
+      gray-800: "#1F2937"
+      gray-750: "#3D4360"
+      gray-500: "#7C8597"
+      gray-300: "#989CB4"
+      gray-100: "#E4E6F0"
+      emerald-600: "#10B981"
+      emerald-500: "#34D399"
+      red-400: "#F87171"
+      amber-400: "#FBBF24"
+      blue-400: "#60A5FA"
+      violet-400: "#A78BFA"
+      pink-400: "#F472B6"
+
+  spacing:
+    sm:
+      layer: "component"
+      value: "8px"
+      domains: ["padding", "gap", "small-gap"]
+      forbidden_domains: ["modal-padding", "card-padding", "page-padding"]
+      explanation: "小间距"
+
+    md:
+      layer: "component"
+      value: "12px"
+      domains: ["padding", "gap", "medium-gap"]
+      forbidden_domains: ["compact", "dense", "modal-padding"]
+      explanation: "中等间距"
+
+    lg:
+      layer: "component"
+      value: "16px"
+      domains: ["padding", "gap", "card-padding"]
+      forbidden_domains: ["compact", "dense", "inline"]
+      explanation: "大间距，用于卡片内边距"
+
+    xl:
+      layer: "component"
+      value: "20px"
+      domains: ["padding", "gap", "section-gap"]
+      forbidden_domains: ["compact", "dense", "inline"]
+      explanation: "超大间距"
+
+    page-padding:
+      layer: "semantic"
+      value: "24px"
+      domains: ["page-padding", "section-padding", "modal-padding"]
+      forbidden_domains: ["compact", "dense", "inline", "table-cell"]
+      explanation: "页面级间距（语义化）"
+
+    compact:
+      layer: "semantic"
+      value: "4px"
+      domains: ["compact", "dense", "inline", "micro"]
+      forbidden_domains: ["modal-padding", "card-padding", "comfortable", "spacious"]
+      explanation: "紧凑间距，用于密集布局"
+
+  radius:
+    sm:
+      layer: "component"
+      value: "4px"
+      domains: ["input", "badge", "chip", "tag"]
+      forbidden_domains: ["modal", "card", "avatar", "button-lg"]
+      explanation: "小圆角"
+
+    md:
+      layer: "component"
+      value: "6px"
+      domains: ["button", "input", "card-small"]
+      forbidden_domains: ["modal", "card-lg", "avatar"]
+      explanation: "中等圆角"
+
+    lg:
+      layer: "component"
+      value: "8px"
+      domains: ["card", "modal", "dropdown", "button-lg"]
+      forbidden_domains: ["badge", "input", "avatar"]
+      explanation: "大圆角"
+
+    full:
+      layer: "component"
+      value: "9999px"
+      domains: ["avatar", "badge", "icon-button", "pill"]
+      forbidden_domains: ["card", "modal", "input", "dropdown"]
+      explanation: "完全圆角"
+
+  font:
+    sans:
+      layer: "semantic"
+      value: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif"
+      domains: ["body-text", "heading", "label", "ui-text"]
+      forbidden_domains: ["code", "monospace", "data"]
+      explanation: "无衬线字体，用于 UI 文本"
+
+    mono:
+      layer: "semantic"
+      value: "'JetBrains Mono', Consolas, monospace"
+      domains: ["code", "api-key", "model-id", "data", "terminal"]
+      forbidden_domains: ["body-text", "heading", "label"]
+      explanation: "等宽字体，用于代码和 API 密钥"
+
+  shadow:
+    sm:
+      layer: "component"
+      value: "0 1px 2px rgba(0, 0, 0, 0.3)"
+      domains: ["card", "dropdown", "tooltip"]
+      forbidden_domains: ["modal", "overlay", "floating"]
+      explanation: "小阴影"
+
+    md:
+      layer: "component"
+      value: "0 4px 6px rgba(0, 0, 0, 0.3)"
+      domains: ["modal", "dropdown", "popover"]
+      forbidden_domains: ["card", "inline", "tooltip"]
+      explanation: "中阴影"
+
+    lg:
+      layer: "component"
+      value: "0 8px 24px rgba(0, 0, 0, 0.35)"
+      domains: ["modal", "overlay", "floating"]
+      forbidden_domains: ["card", "dropdown", "inline"]
+      explanation: "大阴影"
+
+  breakpoint:
+    sm:
+      layer: "component"
+      value: "640px"
+      domains: ["mobile", "narrow", "single-column"]
+      forbidden_domains: ["tablet", "desktop", "multi-column"]
+      explanation: "小屏断点"
+
+    md:
+      layer: "component"
+      value: "1024px"
+      domains: ["tablet", "medium"]
+      forbidden_domains: ["mobile", "desktop-wide"]
+      explanation: "中等屏断点"
+
+    lg:
+      layer: "component"
+      value: "1280px"
+      domains: ["desktop", "wide"]
+      forbidden_domains: ["mobile", "tablet"]
+      explanation: "大屏断点"

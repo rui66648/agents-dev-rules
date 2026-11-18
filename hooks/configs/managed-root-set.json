@@ -1,0 +1,51 @@
+{
+    "schema":  1,
+    "generator":  "人工登记（2026-11-17 managed-root-set 初版，设计稿 docs/designs/2026-11-17-managed-root-set-and-creation-gate-design.md）",
+    "note":  "受管根集合唯一真源。门禁 --mrs 遍历 roots[] 逐项执行 L1/L2/L3。scratch 条目必须写 ttl（fail-closed）。os-scratch 可 scan:false 只登记不深扫。external 独立仓不纳入（有各自门禁）。",
+    "open_questions_decisions":  {
+                                     "Q1_location":  "hooks/configs/managed-root-set.json（与 root-exemptions.yaml 同级）",
+                                     "Q2_os_scratch_granularity":  "<TMP_ROOT> / <PROJECTS_ROOT> 整体 scan:false，只登记不深扫",
+                                     "Q3_ttl_default":  "scratch 无默认 TTL，必须显式写（fail-closed）",
+                                     "Q4_external_repos":  "不纳入 MRS（各有 git + 自有门禁）",
+                                     "Q5_multi_env":  "每环境一份 MRS，--mrs \u003cpath\u003e 切换"
+                                 },
+    "roots":  [
+                  {
+                      "path":  "<WORKSPACE>",
+                      "kind":  "workspace-root",
+                      "description":  "多仓工作区容器根；无独立 git",
+                      "allowlist":  "tools/root-structure.json"
+                  },
+                  {
+                      "path":  "<WORKSPACE>/repo-a",
+                      "kind":  "repo",
+                      "description":  "产品 A · AI 法规平台（独立 git：example-workspace-ai）"
+                  },
+                  {
+                      "path":  "<WORKSPACE>/repo-b",
+                      "kind":  "repo",
+                      "description":  "产品 B · QMS 质量体系（独立 git：example-workspace-qms）"
+                  },
+                  {
+                      "path":  "<WORKSPACE>/repo-c",
+                      "kind":  "repo",
+                      "description":  "产品 C · 评测系统（独立 git：example-workspace-eval）"
+                  },
+                  {
+                      "path":  "<WORKSPACE>/repo-d",
+                      "kind":  "repo",
+                      "description":  "冻结仓（2026-10-12 起冻结）；仍需结构核算，不接受新开发"
+                  },
+                  {
+                      "path":  "<RULES_ROOT>",
+                      "kind":  "repo",
+                      "description":  "共享规则库（独立 git）；本文件所在仓"
+                  },
+                  {
+                      "path":  "<TMP_ROOT>",
+                      "kind":  "os-scratch",
+                      "scan":  false,
+                      "description":  "系统级临时区；只登记存在，不深入扫描（含 dshmods/dshpkg/example-workspace-probe 等已知泄漏物，由 TTL 机制另行处置）"
+                  }
+              ]
+}

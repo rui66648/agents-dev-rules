@@ -1,0 +1,397 @@
+# plugins/registry.yaml - 插件注册表（全量目录）
+# 一切皆插件：技能/规则/命令/Agent 均为能力单元，本文件提供发现与状态查询
+# 落实 RULE-042（插件组装优先）、RULE-043（插件清单合规）
+# 校验：python hooks/scripts/plugin-validator.py --check-registry
+
+version: 1
+updated: 2026-11-16
+
+# ============================================================
+# 技能插件（type: skill）— 29 个
+# ============================================================
+skills:
+  ai-safety-check:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: [executing-plans]
+    composes: [code-review]
+  analytics-design:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [writing-plans]
+  api-design:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [database-migration, writing-plans]
+  brainstorming:
+    version: v2.2.0
+    mode: [standard, creator]
+    depends_on: []
+    composes: [system-design]
+  code-review:
+    version: v1.2.0
+    mode: [standard, creator]
+    depends_on: [ai-safety-check]
+    composes: [verification]
+  data-flow-design:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [writing-plans]
+  database-migration:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [api-design]
+    composes: []
+  deploy:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [executing-plans]
+    composes: [ops-monitoring]
+  executing-plans:
+    version: v2.1.0
+    mode: [standard, creator]
+    depends_on: [writing-plans]
+    composes: [test-driven-development, ai-safety-check, deploy]
+  finishing-branch:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [git-commit, verification]
+    composes: []
+  frontend-component:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [ui-design]
+    composes: []
+  git-commit:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [verification]
+    composes: [finishing-branch]
+  html-document-center:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: [ui-design]
+    composes: []
+  i18n-design:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [frontend-component]
+  integration-design:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [writing-plans]
+  ops-monitoring:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [deploy]
+    composes: [project-closure]
+  performance-tuning:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: []
+  project-closure:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [ops-monitoring]
+    composes: []
+  project-initiation:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: []
+    composes: [brainstorming]
+  refactoring:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [test-driven-development]
+    composes: []
+  security-design:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [ai-safety-check]
+  system-design:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [brainstorming]
+    composes: [api-design, ui-design, data-flow-design, security-design, i18n-design, integration-design, analytics-design, writing-plans]
+  systematic-debugging:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [test-driven-development]
+    composes: []
+  test-driven-development:
+    version: v1.1.1
+    mode: [standard, creator]
+    depends_on: [executing-plans]
+    composes: [refactoring, systematic-debugging, test-strategy]
+  test-strategy:
+    version: v1.0.0
+    mode: [standard, creator]
+    depends_on: [test-driven-development]
+    composes: []
+  ui-design:
+    version: v2.0.0
+    mode: [standard, creator]
+    depends_on: [system-design]
+    composes: [frontend-component, html-document-center]
+  verification:
+    version: v1.3.0
+    mode: [standard, creator]
+    depends_on: [code-review]
+    composes: [git-commit]
+  writing-plans:
+    version: v1.4.0
+    mode: [standard, creator]
+    depends_on: [system-design, api-design]
+    composes: [executing-plans]
+  writing-skills:
+    version: v1.1.0
+    mode: [standard, creator]
+    depends_on: []
+    composes: []
+
+# ============================================================
+# 规则插件（type: rule）— 34 个
+# ============================================================
+rules:
+  adlc-lifecycle:
+    version: v4.2.0
+    rule_id: [RULE-041]
+    level: 建议
+  agent-constraints:
+    version: v2.1.0
+    rule_id: [RULE-028]
+    level: 铁律
+  agent-context:
+    version: v2.0.0
+    level: 建议
+  anti-patterns:
+    version: v1.2.0
+    level: 铁律
+  architecture:
+    version: v1.1.0
+    rule_id: [RULE-005]
+    level: 铁律
+  backup-recovery:
+    version: v1.0.1
+    rule_id: [RULE-050]
+    level: 建议
+  branch-strategy:
+    version: v1.2.0
+    level: 建议
+  cicd-rules:
+    version: v4.4.4
+    rule_id: [RULE-007]
+    level: 铁律
+  cloudbox-rules:
+    version: v1.0.0
+    rule_id: [RULE-059]
+    level: 建议
+  coding-standards:
+    version: v1.1.0
+    level: 建议
+  collaboration:
+    version: v1.7.0
+    rule_id: [RULE-001, RULE-002, RULE-014]
+    level: 铁律
+  component-selection-rules:
+    version: v1.2.1
+    rule_id: [RULE-034, RULE-035, RULE-036]
+    level: 铁律
+  skill-discovery:
+    version: v1.1.0
+    rule_id: [RULE-BROWSER]
+    level: 铁律
+  cross-project-conflicts:
+    version: v1.1.0
+    level: 建议
+  deploy-records:
+    version: v1.1.0
+    level: 建议
+  directory-structure:
+    version: v1.6.0
+    rule_id: [RULE-053]
+    level: 铁律
+  engineering-principles:
+    version: v1.2.0
+    rule_id: [RULE-015]
+    level: 铁律
+  environment-isolation:
+    version: v1.0.1
+    rule_id: [RULE-048]
+    level: 铁律
+  exceptions:
+    version: v1.0.0
+    level: 建议
+  git-conventions:
+    version: v1.2.0
+    rule_id: [RULE-011, RULE-012]
+    level: 铁律
+  hotl-contracts:
+    version: v1.2.1
+    rule_id: [RULE-004]
+    level: 铁律
+  monitoring-rules:
+    version: v1.0.1
+    rule_id: [RULE-049]
+    level: 建议
+  open-source-first:
+    version: v3.7.0
+    rule_id: [RULE-017, RULE-018, RULE-019, RULE-042, RULE-051]
+    level: 铁律
+  performance-rules:
+    version: v1.0.1
+    level: 建议
+  priority-system:
+    version: v1.0.0
+    level: 建议
+  project-dashboards:
+    version: v1.2.0
+    rule_id: [RULE-054]
+    level: 铁律
+  spec-driven:
+    version: v1.0.0
+    rule_id: [RULE-055]
+    level: 铁律
+  spec-kit:
+    version: v1.0.1
+    rule_id: [RULE-056]
+    level: 建议
+  dev-learning-loop:
+    version: v1.1.0
+    rule_id: [RULE-057]
+    level: 建议
+  system-baseline:
+    version: v1.0.0
+    rule_id: [RULE-058]
+    level: 建议
+  project-status:
+    version: v1.2.0
+    level: 建议
+  root-directory-hygiene:
+    version: v2.1.0
+    rule_id: [RULE-052]
+    level: 铁律
+  schema-as-code:
+    version: v4.0.1
+    rule_id: [RULE-030, RULE-032, RULE-033]
+    level: 铁律
+  security-rules:
+    version: v1.1.2
+    rule_id: [RULE-008, RULE-009, RULE-010, RULE-016]
+    level: 铁律
+  tech-debt:
+    version: v1.0.1
+    level: 建议
+  testing-rules:
+    version: v1.1.4
+    rule_id: [RULE-003, RULE-013]
+    level: 铁律
+  ui-design-patterns:
+    version: v1.0.1
+    level: 建议
+  workflow-core:
+    version: v1.3.1
+    level: 铁律
+  workflow-design:
+    version: v1.3.0
+    level: 建议
+  workflow-html:
+    version: v1.1.0
+    rule_id: [RULE-006]
+    level: 铁律
+
+# ============================================================
+# 命令插件（type: command）— 16 个
+# ============================================================
+commands:
+  android-cloud-build:
+    version: v1.0.0
+    maps_to: deploy
+  brainstorm:
+    version: v1.0.0
+    maps_to: skills/brainstorming
+    triggers: [头脑风暴, 需求分析, 方案探索]
+  close:
+    version: v1.0.0
+    maps_to: skills/project-closure
+  debug:
+    version: v1.0.0
+    maps_to: skills/systematic-debugging
+  deploy:
+    version: v1.0.0
+    maps_to: skills/deploy
+  design:
+    version: v1.1.0
+    maps_to: skills/system-design
+  finish:
+    version: v1.0.0
+    maps_to: skills/finishing-branch
+  init:
+    version: v1.0.0
+    maps_to: skills/project-initiation
+  migrate:
+    version: v1.0.0
+    maps_to: skills/database-migration
+  ops:
+    version: v1.0.0
+    maps_to: skills/ops-monitoring
+  plan:
+    version: v1.1.0
+    maps_to: skills/writing-plans
+  refactor:
+    version: v1.0.0
+    maps_to: skills/refactoring
+  review:
+    version: v1.0.0
+    maps_to: skills/code-review
+  rules-audit:
+    version: v1.0.0
+    maps_to: scripts/rules-audit.py
+  test:
+    version: v1.1.0
+    maps_to: skills/test-driven-development
+  verify:
+    version: v1.1.0
+    maps_to: skills/verification
+
+# ============================================================
+# Agent 插件（type: agent）— 10 个
+# ============================================================
+agents:
+  architect:
+    version: v1.2.0
+    owns: [project-initiation, brainstorming, system-design, writing-plans, finishing-branch, project-closure, performance-tuning, data-flow-design, integration-design, analytics-design, verification]
+  backend-developer:
+    version: v1.2.0
+    owns: [api-design, integration-design, analytics-design, database-migration, deploy]
+  code-reviewer:
+    version: v1.2.0
+    owns: [code-review]
+  database-expert:
+    version: v1.1.0
+    owns: [database-migration]
+  docs-author:
+    version: v1.1.0
+    owns: [html-document-center]
+  frontend-developer:
+    version: v1.2.0
+    owns: [frontend-component, ui-design, i18n-design]
+  security-auditor:
+    version: v1.1.0
+    owns: [security-design, ai-safety-check]
+  test-engineer:
+    version: v1.1.0
+    owns: [test-driven-development, test-strategy, systematic-debugging]
+  ui-designer:
+    version: v1.0.0
+    owns: [ui-design, i18n-design]
+  verifier:
+    version: v1.0.0
+    owns: [verification]
